@@ -1,0 +1,32 @@
+.settings-capability-drop {
+  border: 1px dashed var(--line, #a9bfd0);
+  background: color-mix(in srgb, var(--surface, #fff) 88%, var(--ak-color-primary, #4aabea));
+  border-radius: 12px;
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.settings-capability-drop:hover,
+.settings-capability-drop.is-dragging {
+  border-color: var(--ak-color-primary, #4aabea);
+  background: color-mix(in srgb, var(--surface, #fff) 80%, var(--ak-color-primary, #4aabea));
+  transform: translateY(-2px);
+}
+
+.settings-capability-drop input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.settings-capability-drop button { width: 100%; min-height: 112px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border: 0; background: transparent; color: inherit; cursor: pointer; }
+.settings-capability-drop button:focus-visible { outline: 2px solid var(--ak-color-primary, #4aabea); outline-offset: 3px; }
+.settings-capability-drop button span { font-size: 22px; color: var(--ak-color-primary, #4aabea); }
+.settings-capability-drop button small { opacity: .65; }
+.settings-capability-help { margin: 0; font-size: .83rem; opacity: .72; }
+.settings-capability-warning { padding: 12px 14px; border-left: 3px solid #c28236; background: color-mix(in srgb, var(--surface, #fff) 88%, #f1c644); line-height: 1.5; }
+.settings-capability-consent { display: flex !important; flex-direction: row !important; gap: 9px; align-items: flex-start; line-height: 1.45; }
+.settings-capability-consent input { width: 16px; height: 16px; margin-top: 3px; flex: 0 0 auto; }
+
+html[data-theme="dark"] .settings-capability-drop { border-color: var(--night-border); background: var(--night-raised); }
+html[data-theme="dark"] .settings-capability-drop:hover,
+html[data-theme="dark"] .settings-capability-drop.is-dragging { border-color: var(--night-accent); background: var(--night-accent-bg); }
+html[data-theme="dark"] .settings-capability-warning { background: #362d1d; color: #e8d3a4; }
+
+@media (prefers-reduced-motion: reduce) {
+  .settings-capability-drop { transition: none; }
+}

@@ -1,0 +1,2 @@
+mitmproxy>=10.0,<12
+websockets>=13.0

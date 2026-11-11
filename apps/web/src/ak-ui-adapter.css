@@ -1,0 +1,760 @@
+/* KannaPi's opt-in ak-ui system adapter. Behavior stays in the existing React controls. */
+.app-shell[data-ak-ui="system"] {
+  --ak-surface-canvas: #eef1f4;
+  --ak-surface-panel: #fcfdff;
+  --ak-surface-muted: color-mix(in srgb, var(--ak-color-secondary) 12%, #e8ecf0);
+  --ak-surface-raised: #f1f4f7;
+  --ak-surface-inverse: #222427;
+  --ak-text-primary: #1b1d1f;
+  --ak-text-secondary: #5f666b;
+  --ak-text-inverse: #f8f8f5;
+  --ak-signal-info: var(--ak-color-primary);
+  --ak-signal-action: var(--ak-color-advanced);
+  --ak-signal-accent: var(--ak-color-primary);
+  --ak-signal-success: #278253;
+  --ak-signal-danger: #b33f40;
+  --ak-signal-disabled: var(--ak-color-low);
+  --ak-focus-color: var(--ak-color-primary);
+  --ak-font-sans: "Noto Sans SC", "DM Sans", "Microsoft YaHei", Arial, sans-serif;
+  --ak-font-serif: "Noto Serif SC", Georgia, "Songti SC", SimSun, serif;
+  --ak-font-command: var(--ak-font-serif);
+  --ak-font-mono: "JetBrains Mono", Consolas, monospace;
+  --ak-density-control-height: 44px;
+  --ak-density-panel-padding: var(--ak-space-5);
+  --ak-radius-subtle: 3px;
+  --ak-shadow-panel: 0 9px 26px #171a1d12;
+  --ak-shadow-signal: 0 0 0 3px color-mix(in srgb, var(--ak-signal-accent) 24%, transparent);
+  --ak-line-color: color-mix(in srgb, var(--ak-color-secondary) 32%, #c7cdcd);
+  --kanna-accent-soft: color-mix(in srgb, var(--ak-signal-accent) 14%, var(--ak-surface-panel));
+  --kanna-accent-border: color-mix(in srgb, var(--ak-signal-accent) 54%, var(--ak-line-color));
+  --kanna-success-soft: color-mix(in srgb, var(--ak-signal-success) 16%, var(--ak-surface-panel));
+  --kanna-button-ink: #132633;
+  --kanna-accent-ink: #17618b;
+  --kanna-info-ink: #1c658e;
+  --kanna-action-ink: #745710;
+  --kanna-secondary-ink: #715d7a;
+  background: var(--ak-surface-canvas);
+  color: var(--ak-text-primary);
+  font-family: var(--ak-font-sans);
+}
+
+html[data-theme="dark"] .app-shell[data-ak-ui="system"] {
+  --ak-surface-canvas: #111315;
+  --ak-surface-panel: #222528;
+  --ak-surface-muted: color-mix(in srgb, var(--ak-color-secondary) 8%, #1b1e21);
+  --ak-surface-raised: #2d3235;
+  --ak-surface-inverse: #0b0d0f;
+  --ak-text-primary: #f8f8f5;
+  --ak-text-secondary: #b6bdbe;
+  --ak-text-inverse: #1b1d1f;
+  --ak-signal-success: #75d49c;
+  --ak-signal-danger: #f19292;
+  --kanna-accent-ink: var(--ak-color-primary);
+  --kanna-info-ink: var(--ak-color-primary);
+  --kanna-action-ink: var(--ak-color-advanced);
+  --kanna-secondary-ink: var(--ak-color-secondary);
+  --ak-shadow-panel: 0 10px 28px #0005;
+  --ak-line-color: color-mix(in srgb, var(--ak-color-secondary) 22%, #394145);
+  --night-canvas: var(--ak-surface-canvas);
+  --night-sidebar: var(--ak-surface-muted);
+  --night-surface: var(--ak-surface-panel);
+  --night-raised: var(--ak-surface-raised);
+  --night-input: #181c1f;
+  --night-border: var(--ak-line-color);
+  --night-text: var(--ak-text-primary);
+  --night-muted: var(--ak-text-secondary);
+  --night-accent: var(--ak-signal-accent);
+  --night-accent-bg: color-mix(in srgb, var(--ak-signal-accent) 18%, var(--ak-surface-panel));
+  --night-danger: var(--ak-signal-danger);
+}
+
+/* The full CSS Core exposes these utilities; scope the same font roles here for token-only integration. */
+html .app-shell[data-ak-ui].ak-font-sans-serif,
+html .app-shell[data-ak-ui] .ak-font-sans-serif { font-family: var(--ak-font-sans); }
+html .app-shell[data-ak-ui] .ak-font-serif { font-family: var(--ak-font-serif); }
+
+/* Application frame: strong command rail, quieter project navigation, clear stage. */
+html .app-shell[data-ak-ui] .rail {
+  border-right: var(--ak-line-strong) solid var(--ak-signal-accent);
+  background: var(--ak-surface-inverse);
+  padding: var(--ak-space-4) var(--ak-space-2);
+  gap: var(--ak-space-3);
+}
+html .app-shell[data-ak-ui] .brand-mark {
+  width: 42px;
+  height: 42px;
+  margin-bottom: var(--ak-space-4);
+  border-radius: 0;
+  clip-path: polygon(0 0, 79% 0, 100% 21%, 100% 100%, 0 100%);
+  background: var(--ak-signal-accent);
+  color: var(--ak-surface-inverse);
+  font: 800 22px var(--ak-font-command);
+}
+html .app-shell[data-ak-ui] .rail-button {
+  width: var(--ak-density-control-height);
+  height: var(--ak-density-control-height);
+  border: var(--ak-line-hairline) solid transparent;
+  border-radius: var(--ak-radius-subtle);
+  color: var(--ak-color-low);
+  transition: background var(--ak-motion-fast) var(--ak-ease-standard), border-color var(--ak-motion-fast) var(--ak-ease-standard), translate var(--ak-motion-fast) var(--ak-ease-standard);
+}
+html .app-shell[data-ak-ui] .rail-button:hover,
+html .app-shell[data-ak-ui] .rail-button.active {
+  border-color: color-mix(in srgb, var(--ak-signal-accent) 52%, transparent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 17%, var(--ak-surface-inverse));
+  color: var(--ak-signal-accent);
+}
+html .app-shell[data-ak-ui] .rail-button:active { translate: 0 1px; }
+html .app-shell[data-ak-ui] .connection { border-color: var(--ak-surface-inverse); }
+html .app-shell[data-ak-ui] .connection.connected { background: var(--ak-signal-success); }
+html .app-shell[data-ak-ui] .sidebar {
+  border-right: var(--ak-line-hairline) solid var(--ak-line-color);
+  background: var(--ak-surface-muted);
+  scrollbar-color: var(--ak-line-color) transparent;
+}
+html .app-shell[data-ak-ui] .workspace-resizer { background: var(--ak-surface-muted); }
+html .app-shell[data-ak-ui] .workspace-resizer::before { background: var(--ak-line-color); }
+html .app-shell[data-ak-ui] .brand {
+  position: relative;
+  border-color: var(--ak-line-color);
+  padding: 18px 20px;
+}
+html .app-shell[data-ak-ui] .brand::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 20px;
+  width: 48px;
+  height: var(--ak-line-strong);
+  background: var(--ak-signal-accent);
+}
+html .app-shell[data-ak-ui] .brand span { color: var(--ak-text-primary); font: 800 21px var(--ak-font-command); letter-spacing: var(--ak-type-tight); }
+html .app-shell[data-ak-ui] .brand small { color: var(--ak-text-secondary); font: 600 9px var(--ak-font-mono); letter-spacing: var(--ak-type-wide); }
+html .app-shell[data-ak-ui] .sidebar-heading {
+  color: var(--ak-text-secondary);
+  font: 700 10px var(--ak-font-mono);
+  letter-spacing: var(--ak-type-wide);
+}
+html .app-shell[data-ak-ui] .sidebar-heading button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: var(--ak-line-hairline) solid var(--ak-line-color);
+  border-radius: var(--ak-radius-subtle);
+  background: var(--ak-surface-panel);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ak-ui] .sidebar-heading button:hover:not(:disabled) { border-color: var(--ak-signal-accent); color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .workbench-nav button {
+  min-height: 46px;
+  border-left: var(--ak-line-strong) solid transparent;
+  border-radius: var(--ak-radius-subtle);
+  padding: var(--ak-space-2);
+  color: var(--ak-text-primary);
+  transition: background var(--ak-motion-fast) var(--ak-ease-standard), border-color var(--ak-motion-fast) var(--ak-ease-standard), translate var(--ak-motion-fast) var(--ak-ease-standard);
+}
+html .app-shell[data-ak-ui] .workbench-nav {
+  gap: var(--ak-space-3);
+  padding: var(--ak-space-4) var(--ak-space-3) var(--ak-space-2);
+}
+html .app-shell[data-ak-ui] .workbench-nav-group {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+html .app-shell[data-ak-ui] .workbench-nav-label {
+  display: block;
+  margin: 0 0 3px;
+  padding: 0 var(--ak-space-2) 5px;
+  border-bottom: var(--ak-line-hairline) solid var(--ak-line-color);
+  color: var(--ak-text-secondary);
+  font: 700 10px var(--ak-font-mono);
+  letter-spacing: var(--ak-type-wide);
+  text-transform: uppercase;
+}
+html .app-shell[data-ak-ui] .workbench-nav button:hover,
+html .app-shell[data-ak-ui] .workbench-nav button.selected {
+  border-left-color: var(--ak-signal-accent);
+  background: var(--ak-surface-panel);
+}
+html .app-shell[data-ak-ui] .workbench-nav button:hover { translate: 2px 0; }
+html .app-shell[data-ak-ui] .workbench-nav button>span {
+  border-color: var(--ak-line-color);
+  border-radius: var(--ak-radius-subtle);
+  background: var(--ak-surface-raised);
+  color: var(--ak-text-secondary);
+}
+html .app-shell[data-ak-ui] .workbench-nav button.selected>span {
+  border-color: var(--ak-signal-accent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 20%, var(--ak-surface-panel));
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .workbench-nav b { color: var(--ak-text-primary); font-size: 12px; }
+html .app-shell[data-ak-ui] .workbench-nav small { color: var(--ak-text-secondary); font: 400 10px var(--ak-font-sans); }
+html .app-shell[data-ak-ui] :is(.sidebar-item-row,.session-row,.sidebar-bench-row) { border-radius: var(--ak-radius-subtle); }
+html .app-shell[data-ak-ui] :is(.sidebar-item-row,.session-row,.sidebar-bench-row):is(:hover,.selected,:focus-within) {
+  background: var(--ak-surface-panel);
+  box-shadow: inset var(--ak-line-strong) 0 var(--ak-signal-accent);
+}
+html .app-shell[data-ak-ui] .project-icon { border-radius: var(--ak-radius-subtle); background: var(--ak-surface-raised); }
+html .app-shell[data-ak-ui] .workspace { background: var(--ak-surface-canvas); }
+html .app-shell[data-ak-ui].workbench-mode .workspace { grid-template-rows: 62px minmax(0, 1fr) auto; }
+html .app-shell[data-ak-ui] .topbar {
+  position: relative;
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-panel);
+  padding: 16px var(--ak-space-5);
+}
+html .app-shell[data-ak-ui].workbench-mode .topbar { padding-block: 9px; }
+html .app-shell[data-ak-ui].workbench-mode .topbar h1 { font-size: 17px; }
+html .app-shell[data-ak-ui] .topbar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--ak-line-strong);
+  background: var(--ak-signal-accent);
+}
+html .app-shell[data-ak-ui] .topbar p { color: var(--ak-text-secondary); font: 500 10px var(--ak-font-mono); }
+html .app-shell[data-ak-ui] .topbar h1 { color: var(--ak-text-primary); font: 800 clamp(17px, 1.7vw, 24px) var(--ak-font-command); letter-spacing: var(--ak-type-tight); }
+html .app-shell[data-ak-ui] .status-pill {
+  border: var(--ak-line-hairline) solid var(--ak-line-color);
+  border-radius: var(--ak-radius-subtle);
+  background: var(--ak-surface-muted);
+  color: var(--ak-text-secondary);
+  font: 700 10px var(--ak-font-mono);
+}
+html .app-shell[data-ak-ui] .status-pill.running { border-color: var(--ak-signal-success); color: var(--ak-signal-success); }
+html .app-shell[data-ak-ui] .status-pill.error { border-color: var(--ak-signal-danger); color: var(--ak-signal-danger); }
+
+/* Chat keeps its reading width while giving the command controls a harder edge. */
+html .app-shell[data-ak-ui] .chat { background: var(--ak-surface-canvas); scrollbar-color: var(--ak-line-color) var(--ak-surface-canvas); }
+html .app-shell[data-ak-ui] .message-list { width: min(820px, calc(100% - 48px)); }
+html .app-shell[data-ak-ui] .message { gap: var(--ak-space-4); }
+html .app-shell[data-ak-ui] .avatar {
+  border-radius: var(--ak-radius-subtle);
+  background: var(--ak-surface-inverse);
+  color: var(--ak-signal-accent);
+}
+html .app-shell[data-ak-ui] .message.user .avatar { background: var(--ak-surface-muted); color: var(--ak-text-primary); }
+html .app-shell[data-ak-ui] .message header b { color: var(--ak-text-primary); font-weight: 800; }
+html .app-shell[data-ak-ui] .message header span { color: var(--kanna-info-ink); }
+html .app-shell[data-ak-ui] .markdown-body { color: var(--ak-text-primary); }
+html .app-shell[data-ak-ui] .markdown-body :is(h1,h2,h3,h4,strong) { color: var(--ak-text-primary); }
+html .app-shell[data-ak-ui] .markdown-body :is(code,th) { border-color: var(--ak-line-color); border-radius: var(--ak-radius-subtle); background: var(--ak-surface-muted); color: var(--ak-text-primary); }
+html .app-shell[data-ak-ui] .markdown-body pre { border-color: var(--ak-line-color); border-radius: var(--ak-radius-subtle); background: var(--ak-surface-inverse); }
+html .app-shell[data-ak-ui] .markdown-body pre code { border: 0; background: transparent; color: var(--ak-color-white); }
+html .app-shell[data-ak-ui] .markdown-body blockquote { border-color: var(--ak-signal-info); background: var(--ak-surface-raised); }
+html .app-shell[data-ak-ui] .empty-state .orbit { border-color: var(--ak-line-color); border-radius: var(--ak-radius-subtle); background: var(--ak-surface-panel); }
+html .app-shell[data-ak-ui] .empty-state .orbit::after { background: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .empty-state h2 { color: var(--ak-text-primary); font: 800 25px var(--ak-font-command); }
+html .app-shell[data-ak-ui] .empty-state p { color: var(--ak-text-secondary); }
+html .app-shell[data-ak-ui] .composer-wrap { background: linear-gradient(transparent, var(--ak-surface-canvas) 26%); }
+html .app-shell[data-ak-ui] .composer {
+  border-color: var(--ak-line-color);
+  border-radius: var(--ak-radius-subtle);
+  background: var(--ak-surface-panel);
+  box-shadow: var(--ak-shadow-panel);
+}
+html .app-shell[data-ak-ui] .composer:focus-within { border-color: var(--ak-signal-accent); box-shadow: var(--ak-shadow-signal); }
+html .app-shell[data-ak-ui] .composer textarea { background: transparent; color: var(--ak-text-primary); }
+html .app-shell[data-ak-ui] :is(.send,.dialog .primary,.settings-primary,.bench-start,.nuclei-start,.chef-primary) {
+  min-height: 38px;
+  border-radius: var(--ak-radius-subtle);
+  border-color: var(--ak-signal-accent);
+  background: var(--ak-signal-accent);
+  color: var(--kanna-button-ink);
+  box-shadow: inset var(--ak-line-strong) 0 var(--ak-surface-inverse);
+}
+html .app-shell[data-ak-ui] :is(.send,.dialog .primary,.settings-primary,.bench-start,.nuclei-start,.chef-primary):hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ak-signal-accent) 84%, var(--ak-surface-inverse));
+  color: #101d27;
+}
+html .app-shell[data-ak-ui] :is(.model-send-controls select,.attach-button,.dialog .secondary,.settings-secondary) {
+  border-color: var(--ak-line-color);
+  border-radius: var(--ak-radius-subtle);
+  background: var(--ak-surface-raised);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ak-ui] :is(.attach-button,.send,.rail-theme-toggle) { min-width: 38px; min-height: 38px; }
+
+/* Shared workbench surfaces and settings use the same frame without replacing their behavior. */
+html .app-shell[data-ak-ui] :is(.settings-workspace,.settings-content,.traffic-workspace,.passive-recon-workspace,.request-lab-workspace,.nuclei-workspace,.bench-workspace,.asset-map-workspace,.cyberchef-workspace,.ssh-workspace,.attack-graph) {
+  background: var(--ak-surface-canvas);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ak-ui] :is(.traffic-toolbar,.traffic-listener,.recon-toolbar,.recon-controls,.request-lab-tabs,.asset-searchbar,.cyberchef-toolbar,.ssh-toolbar,.nuclei-heading,.bench-heading,.bench-live-strip,.chef-statusbar,.graph-toolbar) {
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-panel);
+}
+html .app-shell[data-ak-ui] :is(.settings-nav,.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent,.inspector) {
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-muted);
+}
+html .app-shell[data-ak-ui] :is(.settings-card,.settings-model-picker,.settings-server,.settings-empty,.settings-skill,.settings-thinking-control,.runtime-card,.search-preview article,.scale-preview,.theme-options button,.bench-card,.bench-history,.bench-session-card,.bench-queue-item,.nuclei-card,.nuclei-history,.chef-panel,.recon-metrics article,.recon-distributions>section,.recon-coverage) {
+  border-color: var(--ak-line-color);
+  border-radius: var(--ak-radius-subtle);
+  background: var(--ak-surface-panel);
+  box-shadow: none;
+}
+html .app-shell[data-ak-ui] :is(.settings-card,.bench-card,.nuclei-card) { border-top: 2px solid var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .settings-nav>button { border-radius: var(--ak-radius-subtle); }
+html .app-shell[data-ak-ui] .settings-nav>button:is(:hover,.selected) { border-left: var(--ak-line-strong) solid var(--ak-signal-accent); background: var(--ak-surface-panel); }
+html .app-shell[data-ak-ui] .settings-nav b { font-size: 12px; }
+html .app-shell[data-ak-ui] .settings-nav small { color: var(--ak-text-secondary); font: 400 10px var(--ak-font-sans); }
+html .app-shell[data-ak-ui] .settings-page-heading h2 { color: var(--ak-text-primary); font: 800 clamp(24px, 2.4vw, 32px) var(--ak-font-command); }
+html .app-shell[data-ak-ui] .settings-page-heading>div>span { color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .settings-page-heading p { color: var(--ak-text-secondary); font-size: 13px; }
+html .app-shell[data-ak-ui] .settings-card-title h3 { color: var(--ak-text-primary); font-size: 15px; }
+html .app-shell[data-ak-ui] .settings-card-title p { color: var(--ak-text-secondary); font-size: 11px; }
+html .app-shell[data-ak-ui] .settings-form label { color: var(--ak-text-secondary); font-size: 11px; }
+html .app-shell[data-ak-ui] :is(.settings-form input,.settings-form textarea,.settings-form select,.dialog input,.dialog textarea,.dialog select) {
+  border-color: var(--ak-line-color);
+  border-radius: var(--ak-radius-subtle);
+  background: var(--ak-surface-raised);
+  color: var(--ak-text-primary);
+  font-size: 12px;
+}
+html .app-shell[data-ak-ui] :is(.dialog,.asset-config-dialog) { border: var(--ak-line-hairline) solid var(--ak-line-color); border-radius: var(--ak-radius-subtle); background: var(--ak-surface-panel); box-shadow: var(--ak-shadow-panel); }
+html .app-shell[data-ak-ui] :is(.dialog>header,.asset-config-dialog>header) { border-color: var(--ak-line-color); }
+html .app-shell[data-ak-ui] :is(.status-pill,.settings-page-heading>b,.settings-health,.settings-server header>span,.bench-session-status,.nuclei-severity) { border-radius: var(--ak-radius-subtle); }
+html .app-shell[data-ak-ui] :is(.settings-notice,.nuclei-notice) { border-left: var(--ak-line-strong) solid var(--ak-signal-info); border-radius: var(--ak-radius-subtle); }
+html .app-shell[data-ak-ui] :is(.traffic-search,.flow-controls,.demo-capture,.recon-metrics,.recon-distributions,.request-lab-import,.request-lab-scope,.asset-options,.asset-settings,.chef-bench,.ssh-hosts,.bench-intake-footer) {
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-muted);
+}
+html .app-shell[data-ak-ui] :is(.flow-row.selected,.asset-table-body>button.selected,.recon-list>div>button.selected,.bench-session-card.selected,.request-lab-tab.selected) {
+  border-left: var(--ak-line-strong) solid var(--ak-signal-accent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 12%, var(--ak-surface-panel));
+}
+html .app-shell[data-ak-ui] .graph-canvas { background-color: var(--ak-surface-canvas); background-image: radial-gradient(var(--ak-line-color) 1px, transparent 1px); }
+html .app-shell[data-ak-ui] :is(.graph-node,.graph-detail) { border-radius: var(--ak-radius-subtle); background: var(--ak-surface-panel); box-shadow: var(--ak-shadow-panel); }
+html .app-shell[data-ak-ui] .graph-node { border-left-color: var(--node-color); }
+html .app-shell[data-ak-ui] .graph-node.objective { --node-color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .graph-node.analysis { --node-color: var(--kanna-info-ink); }
+html .app-shell[data-ak-ui] .graph-node.action { --node-color: var(--kanna-action-ink); }
+html .app-shell[data-ak-ui] .graph-node.discovery { --node-color: var(--kanna-secondary-ink); }
+
+/* The ak-ui palette marks actual states, rather than coloring every surface. */
+html .app-shell[data-ak-ui] :is(.capture-dot,.traffic-empty-icon) { color: var(--kanna-info-ink); }
+html .app-shell[data-ak-ui] .capture-dot { background: var(--ak-signal-info); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ak-signal-info) 20%, transparent); }
+html .app-shell[data-ak-ui] :is(.chef-title>span,.recon-title-mark,.agent-orb) { background: var(--ak-surface-inverse); color: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] :is(.listener-start,.traffic-empty button,.analyze-response,.chef-ask-agent) {
+  background: var(--ak-signal-accent);
+  color: var(--kanna-button-ink);
+}
+html .app-shell[data-ak-ui] :is(.listener-start,.traffic-empty button,.analyze-response,.chef-ask-agent):hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ak-signal-accent) 84%, var(--ak-surface-inverse));
+}
+html .app-shell[data-ak-ui] :is(.analyze-response,.chef-ask-agent) :is(b,small,i) { color: var(--kanna-button-ink); }
+html .app-shell[data-ak-ui] :is(.analyze-response,.chef-ask-agent)>span {
+  background: var(--ak-surface-inverse);
+  color: var(--ak-signal-accent);
+}
+html .app-shell[data-ak-ui] :is(.detail-tabs button.selected,.method-filters button.selected) {
+  border-color: var(--ak-signal-accent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 14%, var(--ak-surface-panel));
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .recipe-card { border-left-color: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .recipe-connector i { background: var(--ak-surface-inverse); color: var(--ak-signal-accent); }
+/* CyberChef's ordinary controls and recipe markers use the workspace accent, not success green. */
+html .app-shell[data-ak-ui] :is(.chef-title>i,.recipe-card em,.chef-context-card>div>i,.chef-thread-label i) {
+  background: color-mix(in srgb, var(--ak-signal-accent) 16%, var(--ak-surface-panel));
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.chef-panel>header>div>span,.recipe-empty>span) { color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .recipe-connector span { background: var(--ak-line-color); }
+html .app-shell[data-ak-ui] .recipe-add { border-color: var(--ak-line-color); background: var(--ak-surface-raised); }
+html .app-shell[data-ak-ui] :is(.recipe-add button,.chef-panel>footer .bake-recipe) {
+  background: var(--ak-signal-accent);
+  color: var(--kanna-button-ink);
+}
+html .app-shell[data-ak-ui] :is(.recipe-add button,.chef-panel>footer .bake-recipe):hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ak-signal-accent) 84%, var(--ak-surface-inverse));
+}
+html .app-shell[data-ak-ui] .chef-secondary {
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-raised);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ak-ui] .chef-output pre { background: var(--ak-surface-inverse); color: var(--ak-color-white); }
+html .app-shell[data-ak-ui] .chef-output pre.empty { background: var(--ak-surface-raised); color: var(--ak-text-secondary); }
+html .app-shell[data-ak-ui] .chef-statusbar>span.detected { color: var(--ak-signal-success); }
+html .app-shell[data-ak-ui] .chef-statusbar>span.detected i {
+  background: var(--ak-signal-success);
+  box-shadow: 0 0 0 3px var(--kanna-success-soft);
+}
+html .app-shell[data-ak-ui] :is(.listener-state.listening i,.tool>span.done) { background: var(--ak-signal-success); }
+html .app-shell[data-ak-ui] .intercept-switch>span {
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-raised);
+  color: var(--ak-text-secondary);
+}
+html .app-shell[data-ak-ui] .intercept-switch>span>i { background: var(--ak-signal-disabled); box-shadow: inset 0 0 0 5px var(--ak-surface-muted); }
+html .app-shell[data-ak-ui] .intercept-switch.enabled>span {
+  border-color: var(--ak-signal-danger);
+  background: color-mix(in srgb, var(--ak-signal-danger) 12%, var(--ak-surface-panel));
+  color: var(--ak-signal-danger);
+}
+html .app-shell[data-ak-ui] .intercept-switch.enabled>span>i { background: var(--ak-signal-danger); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ak-signal-danger) 20%, transparent); }
+html .app-shell[data-ak-ui] .intercept-switch input:focus-visible+span { outline: var(--ak-focus-width) solid var(--ak-focus-color); outline-offset: var(--ak-focus-offset); }
+html .app-shell[data-ak-ui] .settings-nav>button.selected .settings-nav-icon {
+  border-color: var(--ak-signal-accent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 24%, var(--ak-surface-panel));
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.theme-options button.selected,.scale-presets button.selected) {
+  border-color: var(--ak-signal-accent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 13%, var(--ak-surface-panel));
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.theme-swatch-light,.theme-swatch-dark) i:first-child,
+html .app-shell[data-ak-ui] .scale-preview>div>span:first-child,
+html .app-shell[data-ak-ui] .scale-preview>b { background: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .scale-preview>b { color: var(--kanna-button-ink); }
+html .app-shell[data-ak-ui] .scale-output {
+  border-color: var(--ak-signal-accent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 16%, var(--ak-surface-panel));
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.scale-slider,.thinking-level input[type="range"]) { accent-color: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .thinking-level input[type="range"]::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg, var(--ak-signal-accent) 0 var(--thinking-progress), var(--ak-line-color) var(--thinking-progress) 100%);
+}
+html .app-shell[data-ak-ui] .thinking-level input[type="range"]::-webkit-slider-thumb { background: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .thinking-level input[type="range"]::-moz-range-track { background: var(--ak-line-color); }
+html .app-shell[data-ak-ui] .thinking-level input[type="range"]::-moz-range-progress,
+html .app-shell[data-ak-ui] .thinking-level input[type="range"]::-moz-range-thumb { background: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .thinking-level.compact .thinking-level-heading>b,
+html .app-shell[data-ak-ui] .settings-nav>button.selected em { color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .settings-nav>button.selected em { background: color-mix(in srgb, var(--ak-signal-accent) 17%, var(--ak-surface-panel)); }
+html .app-shell[data-ak-ui] :is(.settings-server-icon,.settings-skill>span,.settings-agent-required>span,.bench-session-mark) {
+  background: color-mix(in srgb, var(--ak-signal-accent) 17%, var(--ak-surface-panel));
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .bench-session-card.selected {
+  border-color: var(--ak-signal-accent);
+  box-shadow: inset 0 0 0 1px var(--ak-signal-accent);
+}
+html .app-shell[data-ak-ui] :is(.bench-session-status.solving,.bench-session-status.starting) {
+  background: color-mix(in srgb, var(--ak-signal-accent) 17%, var(--ak-surface-panel));
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .settings-page-heading>b { color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .settings-health.ok { color: var(--ak-signal-success); }
+html .app-shell[data-ak-ui] .settings-health.warning { color: var(--kanna-action-ink); }
+
+/* Color contract: blue is the workspace accent and in-progress signal; green only confirms success. */
+html .app-shell[data-ak-ui] .workspace-resizer:is(:hover,:focus-visible,.dragging)::before { background: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] :is(.session-select>span:first-child,.message header span,.section-title button,.settings-page-heading>div>span) { color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .markdown-body li::marker { color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .markdown-body a { color: var(--kanna-accent-ink); text-decoration-color: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .markdown-body a:hover { color: var(--ak-signal-accent); text-decoration-color: currentColor; }
+html .app-shell[data-ak-ui] .startup-mark {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.agent-dot.running,.tool>span.pulse,.graph-live.running,.graph-live.summarizing,.agent-activity-tool>span.running) {
+  background: var(--ak-signal-info);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ak-signal-info) 20%, transparent);
+}
+html .app-shell[data-ak-ui] :is(.status-pill.running,.graph-status.running,.graph-status.summarizing,.agent-state.running) {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.graph-footnote i.objective,.graph-footnote i.analysis) { background: var(--ak-signal-info); }
+html .app-shell[data-ak-ui] .graph-footnote i.action { background: var(--ak-signal-action); }
+html .app-shell[data-ak-ui] .agent-status-mark,
+html .app-shell[data-ak-ui] .agent-activity-mark {
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .agent-activity { border-color: var(--ak-line-color); background: var(--ak-surface-panel); box-shadow: var(--ak-shadow-panel); }
+html .app-shell[data-ak-ui] .agent-activity-tools { border-color: var(--ak-line-color); }
+html .app-shell[data-ak-ui] .agent-activity-tool + .agent-activity-tool { border-color: var(--ak-line-color); }
+html .app-shell[data-ak-ui] .agent-activity-tool>span { background: var(--ak-signal-disabled); }
+html .app-shell[data-ak-ui] .agent-activity-tool>span.done { background: var(--ak-signal-success); }
+html .app-shell[data-ak-ui] .agent-activity-tool em { color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .agent-activity-tool:has(.failed) em { color: var(--ak-signal-danger); }
+html .app-shell[data-ak-ui] .agent-activity-tool pre { border-color: var(--ak-line-color); background: var(--ak-surface-raised); color: var(--ak-text-primary); }
+html .app-shell[data-ak-ui] :is(.pending-attachment>span,.message-attachment>span,.mcp-card header span) {
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .message-attachment:hover { border-color: var(--kanna-accent-border); background: var(--kanna-accent-soft); }
+html .app-shell[data-ak-ui] .test-result { background: var(--kanna-success-soft); color: var(--ak-signal-success); }
+
+/* Settings, appearance, execution and search are information/command surfaces, not success states. */
+html .app-shell[data-ak-ui] :is(.settings-page-heading>b,.settings-server header>span,.settings-notice,.search-cvss) {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .settings-health.ok {
+  border-color: var(--ak-signal-success);
+  background: var(--kanna-success-soft);
+  color: var(--ak-signal-success);
+}
+html .app-shell[data-ak-ui] :is(.settings-form input,.settings-form textarea,.settings-form select):focus {
+  border-color: var(--ak-signal-accent);
+  box-shadow: var(--ak-shadow-signal);
+}
+html .app-shell[data-ak-ui] .theme-options button:hover { border-color: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .theme-options button.selected { box-shadow: 0 0 0 2px color-mix(in srgb, var(--ak-signal-accent) 24%, transparent); }
+html .app-shell[data-ak-ui] .scale-preview-rail { background: var(--ak-surface-inverse); }
+html .app-shell[data-ak-ui] .scale-preview>div>span { background: var(--ak-line-color); }
+html .app-shell[data-ak-ui] .scale-preview>div>span:first-child { background: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .appearance-footnote span { background: var(--ak-surface-raised); color: var(--ak-text-secondary); }
+html .app-shell[data-ak-ui] :is(.runtime-switch input,.runtime-card input[type="range"],.web-search-settings .search-checkbox input,.bench-row input,.bench-consent input,.bench-check input,.nuclei-options input,.nuclei-consent input,.asset-options .asset-full input) { accent-color: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .runtime-save { border-color: var(--ak-signal-accent); background: var(--ak-signal-accent); color: var(--kanna-button-ink); }
+html .app-shell[data-ak-ui] .runtime-ready { color: var(--ak-signal-success) !important; }
+html .app-shell[data-ak-ui] .chat-context button { border-color: var(--kanna-accent-border); background: var(--kanna-accent-soft); color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .chat-context progress { accent-color: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .context-summary { background: var(--ak-surface-raised); }
+html .app-shell[data-ak-ui] :is(.search-help a,.search-preview article>a,.search-preview details a) { color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .search-preview details { color: var(--ak-text-secondary); }
+
+/* Traffic and passive recon: capture/listening success stays green; exploration and selection stay blue. */
+html .app-shell[data-ak-ui] :is(.demo-capture,.action-link,.recon-controls nav button.selected,.request-lab-import) {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .method-badge:not(.method-post):not(.method-delete):not(.method-put):not(.method-patch) {
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.flow-row.selected,.asset-table-body>button.selected,.recon-list>div>button.selected) {
+  box-shadow: inset var(--ak-line-strong) 0 var(--ak-signal-accent);
+}
+html .app-shell[data-ak-ui] :is(.assistant-thread-label i,.asset-thread-label i) {
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.assistant-author span,.asset-author span) {
+  background: var(--ak-surface-inverse);
+  color: var(--ak-signal-accent);
+}
+html .app-shell[data-ak-ui] .assistant-author i {
+  background: var(--ak-signal-info);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ak-signal-info) 20%, transparent);
+}
+html .app-shell[data-ak-ui] .listener-state.listening i {
+  background: var(--ak-signal-success);
+  box-shadow: 0 0 0 4px var(--kanna-success-soft);
+}
+html .app-shell[data-ak-ui] .recon-live.active { color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .recon-live.active i {
+  background: var(--ak-signal-info);
+  box-shadow: 0 0 0 3px var(--kanna-accent-soft);
+}
+html .app-shell[data-ak-ui] .recon-distributions p>i>em { background: var(--ak-signal-info); }
+html .app-shell[data-ak-ui] :is(.recon-detail section>button span,.parameter-endpoint b) { color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] :is(.recon-list.endpoints>div>button>i,.recon-list.parameters>div>button>i,.recon-list.inventory>div>button>i) {
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .recon-list button em.low { background: var(--ak-surface-raised); color: var(--ak-text-secondary); }
+html .app-shell[data-ak-ui] .recon-empty>div:first-child { color: var(--ak-signal-info); }
+
+/* Request Lab and asset mapping: replay, selection and agent actions are not completion signals. */
+html .app-shell[data-ak-ui] .request-lab-tab.selected {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+}
+html .app-shell[data-ak-ui] .request-lab-scope span { background: var(--kanna-accent-soft); color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .history-runs button.selected {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--kanna-accent-border);
+}
+html .app-shell[data-ak-ui] :is(.request-lab-empty>div,.asset-map-empty>div,.asset-empty>div) { color: var(--ak-signal-info); }
+html .app-shell[data-ak-ui] :is(.request-editor-pane textarea,.request-editor-pane>footer) { background: var(--ak-surface-inverse); color: var(--ak-color-white); }
+html .app-shell[data-ak-ui] :is(.intercept-actions .forward,.recon-empty button:first-child,.request-editor-pane header button,.request-lab-empty button,.asset-searchbar form button,.asset-map-empty .asset-configure,.asset-results>footer button,.asset-detail>a,.asset-analyze,.asset-config-dialog>footer .fofa-save) {
+  border-color: var(--ak-signal-accent);
+  background: var(--ak-signal-accent);
+  color: var(--kanna-button-ink);
+}
+html .app-shell[data-ak-ui] :is(.asset-analyze b,.asset-analyze small,.asset-analyze>i) { color: var(--kanna-button-ink); }
+html .app-shell[data-ak-ui] .asset-analyze>span { background: var(--ak-surface-inverse); color: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] .api-state.connected { color: var(--ak-signal-success); }
+html .app-shell[data-ak-ui] .api-state.connected i {
+  background: var(--ak-signal-success);
+  box-shadow: 0 0 0 3px var(--kanna-success-soft);
+}
+
+/* Bench and Nuclei distinguish work in progress from solved/healthy results. */
+html .app-shell[data-ak-ui] :is(.sidebar-bench-toggle small,.bench-heading>div:first-child>span,.bench-eyebrow,.bench-section-title>span,.bench-challenge-heading>div:first-child>span,.bench-heading-metrics b,.bench-session-detail-header span,.bench-task span,.nuclei-eyebrow,.nuclei-section-title) {
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.bench-live-actions button:not(.danger),.bench-quiet-button,.bench-refresh,.bench-selection-actions button,.bench-task button,.bench-session-meta button,.bench-fields>button) {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.bench-live-actions button:not(.danger),.bench-quiet-button,.bench-refresh,.bench-selection-actions button,.bench-task button,.bench-session-meta button):hover:not(:disabled) {
+  border-color: var(--ak-signal-accent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 22%, var(--ak-surface-panel));
+}
+html .app-shell[data-ak-ui] :is(.bench-new-badge,.bench-queue-item.solving,.bench-queue-item.starting,.bench-session-status.solving,.bench-session-status.starting) {
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.bench-tabbar button.selected,.bench-session-card:hover,.nuclei-history-item.selected) {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] :is(.bench-dot.running,.bench-dot.solving,.bench-dot.starting,.nuclei-history-dot.running) {
+  background: var(--ak-signal-info);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ak-signal-info) 20%, transparent);
+}
+html .app-shell[data-ak-ui] .bench-log.submission { border-color: var(--ak-signal-info); }
+html .app-shell[data-ak-ui] :is(.nuclei-field input,.nuclei-field select,.nuclei-results-toolbar select):focus {
+  border-color: var(--ak-signal-accent);
+  box-shadow: var(--ak-shadow-signal);
+}
+html .app-shell[data-ak-ui] .nuclei-options label.selected {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .nuclei-status.running { background: var(--kanna-accent-soft); color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .nuclei-severity.low { background: var(--ak-surface-raised); color: var(--ak-text-secondary); }
+html .app-shell[data-ak-ui] .nuclei-severity.info { background: var(--kanna-accent-soft); color: var(--kanna-accent-ink); }
+html .app-shell[data-ak-ui] .nuclei-finding a { color: var(--kanna-accent-ink); }
+
+/* SSH command surfaces are neutral graphite with blue prompts/actions. */
+html .app-shell[data-ak-ui] :is(.ssh-terminal,.ssh-terminal-output,.ssh-fingerprint,.ssh-command) {
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-inverse);
+  color: var(--ak-color-white);
+}
+html .app-shell[data-ak-ui] .ssh-terminal-head { border-color: var(--ak-line-color); }
+html .app-shell[data-ak-ui] .ssh-empty>div { color: var(--ak-signal-info); }
+html .app-shell[data-ak-ui] .ssh-command>span { color: var(--ak-signal-accent); }
+html .app-shell[data-ak-ui] :is(.ssh-toolbar button,.ssh-terminal-head button.primary,.ssh-command button) {
+  border-color: var(--ak-signal-accent);
+  background: var(--ak-signal-accent);
+  color: var(--kanna-button-ink);
+}
+html .app-shell[data-ak-ui] .ssh-terminal-head button.danger {
+  border-color: var(--ak-signal-danger);
+  background: color-mix(in srgb, var(--ak-signal-danger) 15%, var(--ak-surface-inverse));
+  color: var(--ak-signal-danger);
+}
+html .app-shell[data-ak-ui] .ssh-hosts>button.selected {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+  box-shadow: inset var(--ak-line-strong) 0 var(--ak-signal-accent);
+}
+
+/* Success-like outcomes use a subdued green and never the legacy lime shades. */
+html .app-shell[data-ak-ui] :is(.bench-session-status.solved,.nuclei-engine.ready,.settings-health.ok,.status-code.success) {
+  border-color: var(--ak-signal-success);
+  background: var(--kanna-success-soft);
+  color: var(--ak-signal-success);
+}
+html .app-shell[data-ak-ui] :is(.ssh-status.connected,.history-runs i.success) {
+  background: var(--ak-signal-success);
+  box-shadow: 0 0 0 3px var(--kanna-success-soft);
+}
+html .app-shell[data-ak-ui] :is(.ssh-result.success,.response-view-pane header b.success) { border-color: var(--ak-signal-success); color: var(--ak-signal-success); }
+
+/* Remove the remaining legacy green-tinted outlines from neutral workbench chrome. */
+html .app-shell[data-ak-ui] :is(.sidebar-bench-sessions,.proxy-address,.listener-help,.traffic-empty-icon,.traffic-context-card,.recon-toolbar select,.recon-toolbar>button,.recon-empty>div:first-child,.recon-empty button,.recon-agent-context,.request-lab-empty>div,.request-lab-context,.nuclei-field input,.nuclei-field select,.nuclei-results-toolbar select,.nuclei-options label,.bench-live-strip span,.bench-heading-metrics>span,.bench-fields input,.bench-options input[type="number"],.asset-searchbar form,.asset-map-mark,.asset-map-empty button,.asset-config-dialog>footer button,.asset-agent-context,.recipe-add select,.recipe-empty>span,.chef-context-card,.graph-session-picker select,.thinking-level-heading>b) {
+  border-color: var(--ak-line-color);
+}
+
+/* A compact workstation hierarchy: short global context, readable local controls. */
+html .app-shell[data-ak-ui] :is(.bench-heading h2,.nuclei-heading h2,.settings-page-heading h2) {
+  font-family: var(--ak-font-command);
+  letter-spacing: var(--ak-type-tight);
+}
+html .app-shell[data-ak-ui] :is(.bench-heading,.nuclei-heading,.traffic-toolbar,.recon-toolbar,.asset-searchbar,.cyberchef-toolbar,.request-lab-tabs,.ssh-toolbar,.graph-toolbar) {
+  min-height: 56px;
+}
+html .app-shell[data-ak-ui] :is(.bench-heading p,.settings-page-heading p,.recon-empty p,.asset-map-empty p,.traffic-empty p,.nuclei-empty p) {
+  color: var(--ak-text-secondary);
+  font-size: 12px;
+  line-height: 1.55;
+}
+html .app-shell[data-ak-ui] :is(.sidebar,.bench-workspace,.nuclei-workspace,.traffic-workspace,.passive-recon-workspace,.request-lab-workspace,.asset-map-workspace,.cyberchef-workspace,.ssh-workspace,.settings-workspace) small {
+  font-size: 10px;
+  line-height: 1.35;
+}
+html .app-shell[data-ak-ui] :is(.bench-eyebrow,.bench-section-title>span,.nuclei-eyebrow,.nuclei-section-title,.recon-toolbar label,.asset-agent>header span,.chef-panel>header>div>span,.graph-toolbar small) {
+  font-size: 10px;
+  line-height: 1.35;
+}
+html .app-shell[data-ak-ui] :is(.bench-card,.nuclei-card,.settings-card,.chef-panel) {
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ak-surface-panel) 75%, var(--ak-signal-accent));
+}
+html .app-shell[data-ak-ui] :is(.bench-live-strip.is-active,.bench-queue-item.solving,.bench-queue-item.starting) {
+  border-color: var(--kanna-accent-border);
+  background: var(--kanna-accent-soft);
+}
+html .app-shell[data-ak-ui] :is(.proxy-address input,.traffic-toolbar select,.nuclei-field input,.nuclei-field select,.bench-workspace input,.asset-map-workspace input,.chef-panel textarea,.graph-session-picker select) {
+  border-color: var(--ak-line-color);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ak-ui] .bench-run-options summary {
+  border-color: var(--ak-line-color);
+  color: var(--kanna-accent-ink);
+}
+html .app-shell[data-ak-ui] .asset-config-backdrop { background: #0b0d0fba; }
+html .app-shell[data-ak-ui] :is(.settings-nav-heading span,.settings-nav>button,.settings-nav>button b) { border-color: var(--ak-line-color); color: var(--ak-text-primary); }
+html .app-shell[data-ak-ui] .thinking-level-heading>b { color: var(--kanna-accent-ink); }
+
+html[data-theme="dark"] .app-shell[data-ak-ui] :is(input,textarea,select):focus {
+  border-color: var(--ak-signal-accent);
+  box-shadow: var(--ak-shadow-signal);
+}
+html .app-shell[data-ak-ui] :is(button,input,textarea,select,[role="button"]):focus-visible {
+  outline: var(--ak-focus-width) solid var(--ak-focus-color);
+  outline-offset: var(--ak-focus-offset);
+}
+html .app-shell[data-ak-ui] :is(button,input,textarea,select):disabled { cursor: not-allowed; }
+@media (max-width: 1240px) and (min-width: 761px) {
+  html .app-shell[data-ak-ui] .workbench-nav { gap: var(--ak-space-2); }
+  html .app-shell[data-ak-ui] .workbench-nav button { min-height: 42px; }
+  html .app-shell[data-ak-ui] .workbench-nav small { display: none; }
+  html .app-shell[data-ak-ui] .brand small { font-size: 8px; letter-spacing: 0.08em; }
+  html .app-shell[data-ak-ui] .sidebar-item-row { position: relative; }
+  html .app-shell[data-ak-ui] .sidebar-item-select b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  html .app-shell[data-ak-ui] .sidebar-item-actions {
+    position: absolute;
+    right: 2px;
+    padding: 2px;
+    border: var(--ak-line-hairline) solid var(--ak-line-color);
+    border-radius: var(--ak-radius-subtle);
+    background: var(--ak-surface-panel);
+    opacity: 0;
+    pointer-events: none;
+  }
+  html .app-shell[data-ak-ui] .sidebar-item-row:is(:hover,:focus-within) .sidebar-item-actions { opacity: 1; pointer-events: auto; }
+}
+@media (max-width: 760px) {
+  html .app-shell[data-ak-ui] .rail { padding-inline: var(--ak-space-1); }
+  html .app-shell[data-ak-ui] .rail-button { width: 40px; height: 40px; }
+  html .app-shell[data-ak-ui] .brand-mark { width: 40px; height: 40px; }
+  html .app-shell[data-ak-ui] .topbar { padding-inline: var(--ak-space-4); }
+  html .app-shell[data-ak-ui] .message-list { width: calc(100% - 24px); }
+  html .app-shell[data-ak-ui] .settings-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--ak-space-2);
+    overflow: visible;
+  }
+  html .app-shell[data-ak-ui] .settings-nav>button { min-width: 0; min-height: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html .app-shell[data-ak-ui] :is(.rail-button,.workbench-nav button) { transition-duration: 0.01ms; }
+  html .app-shell[data-ak-ui] .workbench-nav button:hover,
+  html .app-shell[data-ak-ui] .rail-button:active { translate: none; }
+}

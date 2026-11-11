@@ -1,0 +1,40 @@
+{
+  "name": "@kanna/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "KannaPi backend — persistent project, asset and Pi Agent workspace API",
+  "bin": {
+    "kanna": "./dist/cli.js"
+  },
+  "main": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/main.d.ts",
+      "default": "./dist/main.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "tsc -b --clean",
+    "dev": "tsx watch src/cli.ts"
+  },
+  "dependencies": {
+    "@kanna/agent": "workspace:*",
+    "@kanna/browser": "workspace:*",
+    "@kanna/database": "workspace:*",
+    "@kanna/security": "workspace:*",
+    "@kanna/shared": "workspace:*",
+    "@kanna/state": "workspace:*",
+    "@kanna/traffic": "workspace:*",
+    "commander": "^15.0.0",
+    "ssh2": "1.17.0",
+    "ws": "^8.21.3"
+  },
+  "devDependencies": {
+    "@types/ssh2": "^1.15.6",
+    "@types/ws": "^8.5.0",
+    "tsx": "^4.23.13"
+  }
+}

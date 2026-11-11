@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+release/
+release-agent-progress/
+release-chat-layout/
+release-resizable-chat/
+apps/desktop/build/agent-native/
+apps/desktop/build/tshark/
+*.tsbuildinfo
+
+# Runtime data (KannaPi sessions, SQLite DBs, evidence, audit logs)
+data/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python (services/proxy)
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+
+# Test / coverage
+coverage/
+.tmp/
+
+# Playwright
+.playwright/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+~$*.docx
+
+# Local authorization scope
+scope.local.json
+
+# Local credentials, captures, session history and publish artifacts
+*.local.json
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-shm
+*.db-wal
+*.jsonl
+*.log
+*.pcap
+*.pcapng
+*.cap
+*.keylog
+*.keys
+*.pem
+*.pfx
+*.p12
+*.key
+agent-sessions/
+sessions/
+attachments/
+pcap-analyses/
+output/
+release-*/

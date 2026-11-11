@@ -1,0 +1,844 @@
+/* KannaPi v2: a new command-desk composition built on ak-ui semantic tokens.
+   The workspace components keep their existing React behavior and state. */
+html .app-shell[data-ui-version="2"] {
+  --ak-surface-canvas: #e9eef3;
+  --ak-surface-panel: #ffffff;
+  --ak-surface-muted: #f3f6f9;
+  --ak-surface-raised: #e1e8ef;
+  --ak-surface-inverse: #14202d;
+  --ak-text-primary: #172634;
+  --ak-text-secondary: #586b7c;
+  --ak-text-inverse: #ffffff;
+  --ak-signal-info: var(--ak-color-primary);
+  --ak-signal-accent: var(--ak-color-primary);
+  --ak-focus-color: var(--ak-color-primary);
+  --ak-line-color: #c8d3dd;
+  --ak-shadow-panel: 0 1px 0 #12263812;
+  --v2-chrome: #101b27;
+  --v2-chrome-raised: #202d3a;
+  --v2-line: #d2dbe3;
+  --v2-wash: #f8fafc;
+  --v2-blue-wash: color-mix(in srgb, var(--ak-signal-accent) 12%, var(--ak-surface-panel));
+  --v2-blue-line: color-mix(in srgb, var(--ak-signal-accent) 55%, var(--ak-line-color));
+  --v2-placeholder: #7b8fa0;
+  --v2-assistant-bg: #142331;
+  --v2-assistant-surface: #203647;
+  --v2-assistant-line: #3b5365;
+  --v2-assistant-text: #edf7fc;
+  --v2-assistant-muted: #b5c9d5;
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 8px minmax(0, 1fr) 288px;
+  grid-template-rows: 68px minmax(0, 1fr);
+  background: var(--ak-surface-canvas);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ui-version="2"].workbench-mode {
+  grid-template-columns: var(--sidebar-width) 8px minmax(0, 1fr);
+}
+html[data-theme="dark"] .app-shell[data-ui-version="2"] {
+  --ak-surface-canvas: #111922;
+  --ak-surface-panel: #1c2732;
+  --ak-surface-muted: #17212b;
+  --ak-surface-raised: #273542;
+  --ak-surface-inverse: #0b1119;
+  --ak-text-primary: #eef5f9;
+  --ak-text-secondary: #a7b8c7;
+  --ak-text-inverse: #14202d;
+  --ak-line-color: #364756;
+  --ak-shadow-panel: 0 1px 0 #0006;
+  --v2-chrome: #090f16;
+  --v2-chrome-raised: #172532;
+  --v2-line: #354553;
+  --v2-wash: #1b2732;
+  --v2-placeholder: #9cadba;
+  --v2-assistant-bg: #0c1823;
+  --v2-assistant-surface: #1a2c3b;
+  --v2-assistant-line: #344b5d;
+}
+
+/* Top command strip: product identity, workspace switch, real connection state. */
+html .app-shell[data-ui-version="2"] .rail {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 0 18px;
+  border: 0;
+  border-bottom: 3px solid var(--ak-signal-accent);
+  background: var(--v2-chrome);
+  color: #f5faff;
+}
+html .app-shell[data-ui-version="2"] .rail-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 203px;
+  padding-right: 6px;
+}
+html .app-shell[data-ui-version="2"] .brand-mark {
+  width: 39px;
+  height: 39px;
+  flex: none;
+  margin: 0;
+  color: var(--v2-chrome);
+  background: var(--ak-signal-accent);
+  font-size: 23px;
+}
+html .app-shell[data-ui-version="2"] .rail-identity strong {
+  display: block;
+  color: #f5faff;
+  font: 800 19px/1 var(--ak-font-command);
+  letter-spacing: var(--ak-type-tight);
+}
+html .app-shell[data-ui-version="2"] .rail-identity small {
+  display: block;
+  margin-top: 5px;
+  color: #9db8ca;
+  font: 700 8px/1 var(--ak-font-mono);
+  letter-spacing: .12em;
+}
+html .app-shell[data-ui-version="2"] .rail-divider {
+  width: 1px;
+  height: 28px;
+  flex: none;
+  margin-right: 7px;
+  background: #526577;
+}
+html .app-shell[data-ui-version="2"] .rail-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: auto;
+  height: 40px;
+  min-width: 40px;
+  padding: 0 13px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #aebfcd;
+  font: 700 12px var(--ak-font-sans);
+}
+html .app-shell[data-ui-version="2"] .rail-button span { font: 700 19px/1 var(--ak-font-mono); }
+html .app-shell[data-ui-version="2"] .rail-button b { color: inherit; font-size: 11px; }
+html .app-shell[data-ui-version="2"] .rail-button:is(:hover,.active) {
+  border-color: #496277;
+  background: var(--v2-chrome-raised);
+  color: #dff3ff;
+}
+html .app-shell[data-ui-version="2"] .rail-button.active { box-shadow: inset 0 -3px var(--ak-signal-accent); }
+html .app-shell[data-ui-version="2"] .rail-connection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  color: #c0ced8;
+  font: 700 10px var(--ak-font-mono);
+  text-transform: uppercase;
+}
+html .app-shell[data-ui-version="2"] .rail-connection .connection {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  box-shadow: none;
+}
+html .app-shell[data-ui-version="2"] .rail-theme-toggle { width: 40px; min-width: 40px; padding: 0; }
+
+/* Left directory: navigation and project context form one compact index. */
+html .app-shell[data-ui-version="2"] .sidebar {
+  grid-column: 1;
+  grid-row: 2;
+  min-width: 0;
+  background: var(--ak-surface-muted);
+  border-right: 1px solid var(--ak-line-color);
+}
+html .app-shell[data-ui-version="2"] .sidebar-intro {
+  display: grid;
+  gap: 4px;
+  min-height: 107px;
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid var(--ak-line-color);
+  background: var(--ak-surface-panel);
+}
+html .app-shell[data-ui-version="2"] .sidebar-intro>span {
+  color: var(--kanna-accent-ink);
+  font: 800 9px var(--ak-font-mono);
+  letter-spacing: .12em;
+}
+html .app-shell[data-ui-version="2"] .sidebar-intro strong {
+  color: var(--ak-text-primary);
+  font: 800 21px/1.1 var(--ak-font-command);
+}
+html .app-shell[data-ui-version="2"] .sidebar-intro small {
+  color: var(--ak-text-secondary);
+  font-size: 10px;
+}
+html .app-shell[data-ui-version="2"] .workbench-nav {
+  gap: 12px;
+  padding: 18px 12px 4px;
+}
+html .app-shell[data-ui-version="2"] .workbench-nav-group { gap: 1px; }
+html .app-shell[data-ui-version="2"] .workbench-nav-label {
+  margin: 0 0 5px;
+  padding: 0 10px 6px;
+  border-color: var(--ak-line-color);
+  color: var(--ak-text-secondary);
+  font-size: 9px;
+}
+html .app-shell[data-ui-version="2"] .workbench-nav button {
+  min-height: 43px;
+  grid-template-columns: 30px minmax(0,1fr);
+  gap: 8px;
+  padding: 6px 9px;
+  border: 1px solid transparent;
+  border-left: 3px solid transparent;
+  border-radius: 0;
+}
+html .app-shell[data-ui-version="2"] .workbench-nav button:is(:hover,.selected) {
+  border-color: var(--ak-line-color);
+  border-left-color: var(--ak-signal-accent);
+  background: var(--ak-surface-panel);
+  box-shadow: 0 1px 0 #101b2710;
+  translate: none;
+}
+html .app-shell[data-ui-version="2"] .workbench-nav button>span {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 0;
+  background: var(--ak-surface-raised);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ui-version="2"] .workbench-nav button.selected>span {
+  background: var(--v2-chrome);
+  color: var(--ak-signal-accent);
+}
+html .app-shell[data-ui-version="2"] .workbench-nav b { font-size: 12px; }
+html .app-shell[data-ui-version="2"] .workbench-nav small { color: var(--ak-text-secondary); font-size: 9px; }
+html .app-shell[data-ui-version="2"] .sidebar-heading {
+  min-height: 42px;
+  margin: 9px 12px 3px;
+  padding: 0 2px;
+  border-top: 1px solid var(--ak-line-color);
+  color: var(--ak-text-secondary);
+}
+html .app-shell[data-ui-version="2"] .sidebar-heading button {
+  width: 29px;
+  height: 29px;
+  border: 1px solid var(--ak-line-color);
+  border-radius: 0;
+  background: var(--ak-surface-panel);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ui-version="2"] :is(.sidebar-item-row,.session-row,.sidebar-bench-row) {
+  border: 1px solid transparent;
+  border-radius: 0;
+}
+html .app-shell[data-ui-version="2"] :is(.sidebar-item-row,.session-row,.sidebar-bench-row):is(:hover,.selected,:focus-within) {
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-panel);
+  box-shadow: inset 3px 0 var(--ak-signal-accent);
+}
+html .app-shell[data-ui-version="2"] .project-icon {
+  border: 0;
+  border-radius: 0;
+  background: var(--v2-chrome);
+  color: var(--ak-signal-accent);
+}
+html .app-shell[data-ui-version="2"] .sidebar-item-select b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html .app-shell[data-ui-version="2"] .workspace-resizer {
+  grid-column: 2;
+  grid-row: 2;
+  background: var(--ak-surface-muted);
+}
+html .app-shell[data-ui-version="2"] .workspace-resizer::before { background: var(--ak-line-color); }
+
+/* The content plane is no longer a nested generic dashboard. */
+html .app-shell[data-ui-version="2"] .workspace {
+  grid-column: 3;
+  grid-row: 2;
+  grid-template-rows: 88px minmax(0,1fr) auto;
+  background: var(--ak-surface-canvas);
+}
+html .app-shell[data-ui-version="2"].workbench-mode .workspace { grid-template-rows: 78px minmax(0,1fr) auto; }
+html .app-shell[data-ui-version="2"] .topbar,
+html .app-shell[data-ui-version="2"].workbench-mode .topbar {
+  min-width: 0;
+  padding: 14px 27px;
+  border: 0;
+  border-bottom: 1px solid #31485e;
+  background: var(--v2-chrome-raised);
+  color: #f4faff;
+}
+html .app-shell[data-ui-version="2"] .topbar::before {
+  width: 5px;
+  background: var(--ak-signal-accent);
+}
+html .app-shell[data-ui-version="2"] .topbar p {
+  color: #a9c4d5;
+  font: 600 10px var(--ak-font-mono);
+}
+html .app-shell[data-ui-version="2"] .topbar h1,
+html .app-shell[data-ui-version="2"].workbench-mode .topbar h1 {
+  margin-top: 5px;
+  color: #f4faff;
+  font: 800 clamp(20px, 2vw, 27px) var(--ak-font-command);
+}
+html .app-shell[data-ui-version="2"] .topbar .status-pill {
+  padding: 7px 10px;
+  border: 1px solid #4a5e6f;
+  border-radius: 0;
+  background: #192938;
+  color: #dceaf4;
+  text-transform: uppercase;
+}
+html .app-shell[data-ui-version="2"] .topbar .status-pill.running {
+  border-color: var(--ak-signal-accent);
+  color: var(--ak-signal-accent);
+}
+html .app-shell[data-ui-version="2"] .workspace-stage,
+html .app-shell[data-ui-version="2"] :is(.settings-workspace,.traffic-workspace,.passive-recon-workspace,.request-lab-workspace,.nuclei-workspace,.bench-workspace,.asset-map-workspace,.cyberchef-workspace,.ssh-workspace,.attack-graph) {
+  min-width: 0;
+  background: var(--ak-surface-canvas);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ui-version="2"] :is(.traffic-toolbar,.traffic-listener,.recon-toolbar,.recon-controls,.request-lab-tabs,.asset-searchbar,.cyberchef-toolbar,.ssh-toolbar,.nuclei-heading,.bench-heading,.bench-live-strip,.chef-statusbar,.graph-toolbar) {
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-panel);
+}
+html .app-shell[data-ui-version="2"] :is(.settings-nav,.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent) {
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-muted);
+}
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent) {
+  border-left: 1px solid var(--v2-assistant-line);
+  background: var(--v2-assistant-bg);
+  color: var(--v2-assistant-text);
+}
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent)>header {
+  border-color: var(--v2-assistant-line);
+  background: var(--v2-assistant-surface);
+}
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent) :is(b,strong,h2,h3) { color: var(--v2-assistant-text); }
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent) :is(p,small,footer,header span) { color: var(--v2-assistant-muted); }
+html .app-shell[data-ui-version="2"] :is(.traffic-context-card,.recon-agent-context,.request-lab-context,.asset-agent-context,.chef-context-card) {
+  border-color: var(--v2-assistant-line);
+  border-radius: 0;
+  background: var(--v2-assistant-surface);
+  color: var(--v2-assistant-text);
+}
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent) article {
+  border-color: var(--v2-assistant-line);
+  border-radius: 0;
+  background: var(--v2-assistant-surface);
+}
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent) .markdown-body,
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent) .markdown-body :is(h1,h2,h3,h4,strong) {
+  color: var(--v2-assistant-text);
+}
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent)>footer {
+  border-color: var(--v2-assistant-line);
+  background: var(--v2-assistant-bg);
+}
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent)>footer b { color: var(--v2-assistant-muted); }
+html .app-shell[data-ui-version="2"] :is(.assistant-thread-label,.asset-thread-label,.chef-thread-label,.traffic-context-card>span,.recon-agent-context>span,.request-lab-context>span,.asset-agent-context>span) { color: var(--v2-assistant-muted); }
+html .app-shell[data-ui-version="2"] :is(.analyze-response,.asset-analyze,.chef-ask-agent) :is(b,small,i) { color: #10202c; }
+html .app-shell[data-ui-version="2"] :is(.settings-card,.settings-model-picker,.settings-server,.settings-empty,.settings-skill,.settings-thinking-control,.runtime-card,.search-preview article,.scale-preview,.theme-options button,.bench-card,.bench-history,.bench-session-card,.bench-queue-item,.nuclei-card,.nuclei-history,.chef-panel,.recon-metrics article,.recon-distributions>section,.recon-coverage,.traffic-context-card,.asset-agent-context) {
+  border-color: var(--ak-line-color);
+  border-radius: 0;
+  background: var(--ak-surface-panel);
+  box-shadow: var(--ak-shadow-panel);
+}
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent) :is(.traffic-context-card,.recon-agent-context,.request-lab-context,.asset-agent-context,.chef-context-card) {
+  border-color: var(--v2-assistant-line);
+  background: var(--v2-assistant-surface);
+  color: var(--v2-assistant-text);
+}
+html .app-shell[data-ui-version="2"] :is(.analyze-response,.asset-analyze,.chef-ask-agent):disabled {
+  opacity: 1;
+  border-color: var(--v2-assistant-line);
+  background: #2d4659;
+  box-shadow: none;
+}
+html .app-shell[data-ui-version="2"] :is(.analyze-response,.asset-analyze,.chef-ask-agent):disabled :is(b,small,i) { color: var(--v2-assistant-muted); }
+html .app-shell[data-ui-version="2"] :is(.settings-card,.bench-card,.nuclei-card) { border-top: 1px solid var(--ak-line-color); }
+html .app-shell[data-ui-version="2"] :is(.bench-heading h2,.nuclei-heading h2,.settings-page-heading h2) {
+  color: var(--ak-text-primary);
+  font-family: var(--ak-font-command);
+  font-size: clamp(23px, 2.2vw, 31px);
+}
+html .app-shell[data-ui-version="2"] :is(.bench-eyebrow,.nuclei-eyebrow,.nuclei-section-title,.bench-section-title>span,.settings-page-heading>div>span) {
+  color: var(--kanna-accent-ink);
+  font-family: var(--ak-font-mono);
+  letter-spacing: .1em;
+}
+html .app-shell[data-ui-version="2"] :is(.bench-card,.nuclei-card,.chef-panel,.settings-card) :is(input,textarea,select) {
+  border-color: var(--ak-line-color);
+  border-radius: 0;
+  background: var(--v2-wash);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ui-version="2"] :is(input,textarea)::placeholder { color: var(--v2-placeholder); opacity: 1; }
+html .app-shell[data-ui-version="2"] .bench-workspace {
+  --bench-border: var(--ak-line-color);
+  --bench-muted: var(--ak-text-secondary);
+}
+html .app-shell[data-ui-version="2"] :is(.bench-panel-empty,.bench-empty,.recipe-empty,.traffic-empty small,.assistant-placeholder,.chef-assistant-placeholder) {
+  color: var(--ak-text-secondary);
+}
+html .app-shell[data-ui-version="2"] :is(.bench-card,.nuclei-card,.chef-panel,.settings-card) :is(button,input,textarea,select):focus-visible {
+  outline: var(--ak-focus-width) solid var(--ak-focus-color);
+  outline-offset: var(--ak-focus-offset);
+}
+html .app-shell[data-ui-version="2"] :is(.send,.dialog .primary,.settings-primary,.bench-start,.nuclei-start,.chef-primary,.listener-start,.analyze-response,.chef-ask-agent,.asset-analyze) {
+  border-radius: 0;
+  border: 1px solid var(--ak-signal-accent);
+  background: var(--ak-signal-accent);
+  color: #10202c;
+  box-shadow: inset 3px 0 var(--v2-chrome);
+}
+html .app-shell[data-ui-version="2"] :is(.traffic-agent,.passive-recon-agent,.request-lab-agent,.asset-agent,.chef-agent) :is(.analyze-response,.asset-analyze,.chef-ask-agent):disabled {
+  border-color: var(--v2-assistant-line);
+  background: #2d4659;
+  box-shadow: none;
+}
+html .app-shell[data-ui-version="2"] :is(.dialog,.asset-config-dialog) {
+  border: 1px solid var(--ak-line-color);
+  border-top: 4px solid var(--ak-signal-accent);
+  border-radius: 0;
+  background: var(--ak-surface-panel);
+  box-shadow: 0 24px 72px #0c192b66;
+}
+html .app-shell[data-ui-version="2"] :is(.dialog h2,.asset-config-dialog h2) { font-family: var(--ak-font-command); }
+html .app-shell[data-ui-version="2"] :is(.modal-backdrop,.asset-config-backdrop) { background: #0b1420c9; }
+
+/* Bench: the run/session ledger becomes the left working column; intake gets the wide plane. */
+html .app-shell[data-ui-version="2"] .bench-layout {
+  grid-template-columns: minmax(270px, .34fr) minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 16px 16px;
+}
+html .app-shell[data-ui-version="2"] .bench-history { grid-column: 1; grid-row: 1; }
+html .app-shell[data-ui-version="2"] .bench-main { grid-column: 2; grid-row: 1; }
+html .app-shell[data-ui-version="2"] .bench-session-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--ak-space-2);
+  padding: var(--ak-space-3);
+}
+html .app-shell[data-ui-version="2"] .bench-session-card {
+  position: relative;
+  min-height: 148px;
+  gap: var(--ak-space-2);
+  overflow: hidden;
+  border: var(--ak-line-hairline) solid var(--ak-line-color);
+  border-left: var(--ak-line-strong) solid transparent;
+  border-radius: var(--ak-radius-subtle);
+  padding: var(--ak-space-3);
+  color: var(--ak-text-primary);
+  transition:
+    border-color var(--ak-motion-fast) var(--ak-ease-standard),
+    background-color var(--ak-motion-fast) var(--ak-ease-standard),
+    box-shadow var(--ak-motion-fast) var(--ak-ease-standard),
+    transform var(--ak-motion-fast) var(--ak-ease-standard);
+}
+html .app-shell[data-ui-version="2"] .bench-session-card:hover {
+  border-color: var(--ak-signal-accent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 5%, var(--ak-surface-panel));
+  box-shadow: var(--ak-shadow-panel);
+  transform: translateY(-2px);
+}
+html .app-shell[data-ui-version="2"] .bench-session-card.selected {
+  border-color: var(--ak-signal-accent);
+  border-left: var(--ak-line-strong) solid var(--ak-signal-accent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 10%, var(--ak-surface-panel));
+  box-shadow: inset 0 0 0 1px var(--ak-signal-accent);
+}
+html .app-shell[data-ui-version="2"] .bench-session-card:focus-visible {
+  outline: var(--ak-focus-width) solid var(--ak-focus-color);
+  outline-offset: calc(-1 * var(--ak-focus-offset));
+}
+html .app-shell[data-ui-version="2"] :is(.bench-session-card-top, .bench-session-card-foot) {
+  background: transparent;
+}
+html .app-shell[data-ui-version="2"] .bench-session-mark {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border-radius: var(--ak-radius-subtle);
+  background: color-mix(in srgb, var(--ak-signal-accent) 13%, var(--ak-surface-panel));
+  color: var(--kanna-accent-ink);
+  font-size: 16px;
+}
+html .app-shell[data-ui-version="2"] .bench-session-title b {
+  color: var(--ak-text-primary);
+  font: 800 14px/1.25 var(--ak-font-mono);
+}
+html .app-shell[data-ui-version="2"] .bench-session-title small {
+  margin-top: var(--ak-space-1);
+  color: var(--ak-text-secondary);
+  font: 400 11px/1.4 var(--ak-font-sans);
+  -webkit-line-clamp: 2;
+}
+html .app-shell[data-ui-version="2"] .bench-session-status {
+  max-width: min(100%, 96px);
+  padding: 4px 6px;
+  background: var(--ak-surface-muted);
+  color: var(--ak-text-secondary);
+  font: 700 9px/1.2 var(--ak-font-mono);
+}
+html .app-shell[data-ui-version="2"] .bench-session-status:is(.starting, .solving) {
+  background: color-mix(in srgb, var(--ak-signal-info) 14%, var(--ak-surface-panel));
+  color: var(--kanna-info-ink);
+}
+html .app-shell[data-ui-version="2"] .bench-session-status.solved {
+  background: color-mix(in srgb, var(--ak-signal-success) 16%, var(--ak-surface-panel));
+  color: var(--ak-signal-success);
+}
+html .app-shell[data-ui-version="2"] .bench-session-status:is(.failed, .stopped) {
+  background: color-mix(in srgb, var(--ak-signal-danger) 15%, var(--ak-surface-panel));
+  color: var(--ak-signal-danger);
+}
+html .app-shell[data-ui-version="2"] .bench-session-status.incomplete {
+  background: color-mix(in srgb, var(--ak-signal-action) 18%, var(--ak-surface-panel));
+  color: var(--kanna-action-ink);
+}
+html .app-shell[data-ui-version="2"] .bench-session-card-foot {
+  gap: var(--ak-space-1);
+  border-top: var(--ak-line-hairline) solid var(--ak-line-color);
+  padding-top: var(--ak-space-2);
+  color: var(--ak-text-secondary);
+  font: 500 10px/1.2 var(--ak-font-mono);
+}
+html .app-shell[data-ui-version="2"] .bench-queue-summary,
+html .app-shell[data-ui-version="2"] .bench-tabbar,
+html .app-shell[data-ui-version="2"] .bench-section-title,
+html .app-shell[data-ui-version="2"] .bench-fields { border-color: var(--ak-line-color); }
+html .app-shell[data-ui-version="2"] .bench-queue-summary { background: var(--ak-surface-muted); }
+html .app-shell[data-ui-version="2"] .bench-challenges { border-top: 3px solid var(--ak-signal-accent); }
+html .app-shell[data-ui-version="2"] .bench-intake-footer { border-color: var(--ak-line-color); background: var(--ak-surface-muted); }
+html .app-shell[data-ui-version="2"] .bench-history-panel { gap: var(--ak-space-3); }
+html .app-shell[data-ui-version="2"] .bench-run-list-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ak-space-2);
+  margin: 0;
+  color: var(--ak-text-primary);
+  font: 700 12px var(--ak-font-sans);
+}
+html .app-shell[data-ui-version="2"] .bench-run-list-heading small {
+  color: var(--ak-text-secondary);
+  font: 500 10px var(--ak-font-mono);
+}
+html .app-shell[data-ui-version="2"] .bench-run-list-heading:focus-visible {
+  outline: var(--ak-focus-width) solid var(--ak-focus-color);
+  outline-offset: var(--ak-focus-offset);
+}
+html .app-shell[data-ui-version="2"] .bench-run-list {
+  max-height: none;
+  overflow: visible;
+  gap: var(--ak-space-2);
+}
+html .app-shell[data-ui-version="2"] .bench-run-list button {
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  min-height: 62px;
+  border: var(--ak-line-hairline) solid var(--ak-line-color);
+  border-left: var(--ak-line-strong) solid transparent;
+  border-radius: var(--ak-radius-subtle);
+  background: var(--ak-surface-panel);
+  padding: var(--ak-space-2) var(--ak-space-3);
+  color: var(--ak-text-primary);
+  text-align: left;
+  transition: border-color var(--ak-motion-fast) var(--ak-ease-standard), background-color var(--ak-motion-fast) var(--ak-ease-standard);
+}
+html .app-shell[data-ui-version="2"] .bench-run-list button:hover {
+  border-color: var(--ak-signal-accent);
+  border-left-color: var(--ak-signal-accent);
+  background: color-mix(in srgb, var(--ak-signal-accent) 7%, var(--ak-surface-panel));
+}
+html .app-shell[data-ui-version="2"] .bench-run-list button:focus-visible,
+html .app-shell[data-ui-version="2"] :is(.bench-run-back, .bench-run-delete, .bench-run-cleanup):focus-visible {
+  outline: var(--ak-focus-width) solid var(--ak-focus-color);
+  outline-offset: var(--ak-focus-offset);
+}
+html .app-shell[data-ui-version="2"] .bench-run-list b {
+  color: var(--ak-text-primary);
+  font: 800 11px var(--ak-font-mono);
+}
+html .app-shell[data-ui-version="2"] .bench-run-list small { color: var(--ak-text-secondary); font: 500 10px var(--ak-font-mono); }
+html .app-shell[data-ui-version="2"] .bench-run-open {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  align-self: center;
+  color: var(--kanna-accent-ink);
+  font: 700 16px var(--ak-font-sans);
+}
+html .app-shell[data-ui-version="2"] :is(.bench-run-list, .bench-run-detail-title) .bench-dot.completed {
+  background: var(--ak-signal-success);
+}
+html .app-shell[data-ui-version="2"] .bench-run-detail-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--ak-space-2);
+  border-bottom: var(--ak-line-hairline) solid var(--ak-line-color);
+  background: var(--ak-surface-panel);
+  padding: var(--ak-space-2);
+}
+html .app-shell[data-ui-version="2"] .bench-run-detail-title {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  grid-template-columns: 8px minmax(0, 1fr);
+  align-items: center;
+  gap: 2px var(--ak-space-2);
+  min-width: 0;
+}
+html .app-shell[data-ui-version="2"] .bench-run-detail-title b { font: 800 11px var(--ak-font-mono); text-transform: uppercase; }
+html .app-shell[data-ui-version="2"] .bench-run-detail-title small {
+  grid-column: 2;
+  overflow: hidden;
+  color: var(--ak-text-secondary);
+  font: 500 9px var(--ak-font-mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html .app-shell[data-ui-version="2"] .bench-run-detail-actions { display: flex; justify-self: end; min-width: 0; }
+html .app-shell[data-ui-version="2"] :is(.bench-run-back, .bench-run-delete, .bench-run-cleanup) {
+  min-height: var(--ak-density-control-height);
+  border: var(--ak-line-hairline) solid var(--ak-line-color);
+  border-radius: var(--ak-radius-subtle);
+  background: var(--ak-surface-muted);
+  padding: 0 var(--ak-space-3);
+  color: var(--ak-text-primary);
+  font: 700 10px var(--ak-font-sans);
+  white-space: nowrap;
+  transition: background-color var(--ak-motion-fast) var(--ak-ease-standard), border-color var(--ak-motion-fast) var(--ak-ease-standard);
+}
+html .app-shell[data-ui-version="2"] .bench-run-back:hover { border-color: var(--ak-signal-accent); background: color-mix(in srgb, var(--ak-signal-accent) 10%, var(--ak-surface-panel)); }
+html .app-shell[data-ui-version="2"] .bench-run-delete { border-color: var(--ak-signal-danger); color: var(--ak-signal-danger); }
+html .app-shell[data-ui-version="2"] .bench-run-delete:hover:not(:disabled) { background: color-mix(in srgb, var(--ak-signal-danger) 12%, var(--ak-surface-panel)); }
+html .app-shell[data-ui-version="2"] .bench-run-cleanup { border-color: var(--ak-signal-action); color: var(--kanna-action-ink); }
+html .app-shell[data-ui-version="2"] .bench-run-cleanup:hover:not(:disabled) { background: color-mix(in srgb, var(--ak-signal-action) 12%, var(--ak-surface-panel)); }
+html .app-shell[data-ui-version="2"] .bench-history-panel .bench-log-panel { margin-top: 0; }
+@media (prefers-reduced-motion: reduce) {
+  html .app-shell[data-ui-version="2"] .bench-session-card { transition-duration: 0.01ms; }
+  html .app-shell[data-ui-version="2"] .bench-session-card:hover { transform: none; }
+  html .app-shell[data-ui-version="2"] :is(.bench-run-list button, .bench-run-back, .bench-run-delete, .bench-run-cleanup) { transition-duration: 0.01ms; }
+}
+
+/* CyberChef: compare wide input and output, with the recipe lane above the result. */
+html .app-shell[data-ui-version="2"] .chef-bench {
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  grid-template-rows: minmax(0, .45fr) minmax(0, .55fr);
+  gap: 10px;
+  padding: 12px;
+  overflow: hidden;
+  background: var(--ak-surface-canvas);
+}
+html .app-shell[data-ui-version="2"] .chef-input { grid-column: 1; grid-row: 1 / 3; }
+html .app-shell[data-ui-version="2"] .chef-recipe { grid-column: 2; grid-row: 1; }
+html .app-shell[data-ui-version="2"] .chef-output { grid-column: 2; grid-row: 2; min-height: 0; }
+html .app-shell[data-ui-version="2"] .chef-panel>header {
+  min-height: 43px;
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-muted);
+}
+html .app-shell[data-ui-version="2"] .chef-panel>footer { border-color: var(--ak-line-color); background: var(--ak-surface-muted); }
+html .app-shell[data-ui-version="2"] .chef-input textarea { font-size: 11px; line-height: 1.6; }
+html .app-shell[data-ui-version="2"] .chef-output pre.empty { background: var(--v2-wash); }
+html .app-shell[data-ui-version="2"] .chef-output pre:not(.empty) { background: var(--v2-chrome); color: #e7f4fa; }
+html .app-shell[data-ui-version="2"] .recipe-add { border-color: var(--ak-line-color); background: var(--ak-surface-muted); }
+
+/* Settings: one horizontal instrument tray, then a full-width configuration page. */
+html .app-shell[data-ui-version="2"] .settings-workspace {
+  grid-template-columns: minmax(0,1fr);
+  grid-template-rows: 77px minmax(0,1fr);
+}
+html .app-shell[data-ui-version="2"] .settings-nav {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 0;
+  padding: 8px 15px;
+  border-right: 0;
+  border-bottom: 1px solid var(--ak-line-color);
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: var(--ak-surface-panel);
+}
+html .app-shell[data-ui-version="2"] .settings-nav-heading {
+  min-width: 132px;
+  flex: none;
+  padding: 0 9px 0 0;
+}
+html .app-shell[data-ui-version="2"] .settings-nav-heading span { color: var(--ak-text-primary); font: 800 13px var(--ak-font-command); }
+html .app-shell[data-ui-version="2"] .settings-nav-heading small { color: var(--ak-text-secondary); font-size: 8px; }
+html .app-shell[data-ui-version="2"] .settings-nav>button {
+  width: auto;
+  min-width: 122px;
+  max-width: 158px;
+  min-height: 58px;
+  flex: 1 0 122px;
+  grid-template-columns: 27px minmax(0,1fr);
+  gap: 7px;
+  padding: 6px 8px;
+  border: 1px solid var(--ak-line-color);
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  background: var(--ak-surface-muted);
+  transform: none;
+}
+html .app-shell[data-ui-version="2"] .settings-nav>button:is(:hover,.selected) {
+  border-color: var(--ak-line-color);
+  border-bottom-color: var(--ak-signal-accent);
+  background: var(--v2-blue-wash);
+}
+html .app-shell[data-ui-version="2"] .settings-nav-icon { width: 26px; height: 26px; border-radius: 0; }
+html .app-shell[data-ui-version="2"] .settings-nav b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+html .app-shell[data-ui-version="2"] .settings-nav>button small,
+html .app-shell[data-ui-version="2"] .settings-nav>button em { display: none; }
+html .app-shell[data-ui-version="2"] .settings-scope {
+  min-width: 128px;
+  max-width: 170px;
+  flex: 1 0 128px;
+  margin: 0 0 0 5px;
+  padding: 3px 0 3px 12px;
+  border-top: 0;
+  border-left: 1px solid var(--ak-line-color);
+}
+html .app-shell[data-ui-version="2"] .settings-scope p { display: none; }
+html .app-shell[data-ui-version="2"] .settings-scope>b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html .app-shell[data-ui-version="2"] .settings-content {
+  padding: 26px clamp(22px,4vw,54px) 50px;
+  background: var(--ak-surface-canvas);
+}
+html .app-shell[data-ui-version="2"] .settings-page { width: min(1040px,100%); }
+
+@container (max-width: 960px) {
+  html .app-shell[data-ui-version="2"] .bench-layout {
+    grid-template-columns: minmax(0,1fr);
+    grid-template-rows: auto auto;
+    overflow: auto;
+  }
+  html .app-shell[data-ui-version="2"] .bench-main { grid-column: 1; grid-row: 1; }
+  html .app-shell[data-ui-version="2"] .bench-history { grid-column: 1; grid-row: 2; min-height: 420px; }
+}
+@media (max-width: 1200px) {
+  html .app-shell[data-ui-version="2"] .chef-bench {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-template-rows: minmax(260px,1fr) minmax(230px,.7fr);
+    overflow: auto;
+  }
+  html .app-shell[data-ui-version="2"] .chef-input { grid-column: 1; grid-row: 1; }
+  html .app-shell[data-ui-version="2"] .chef-recipe { grid-column: 2; grid-row: 1; }
+  html .app-shell[data-ui-version="2"] .chef-output { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* The conversation is a working document with a persistent command tray. */
+html .app-shell[data-ui-version="2"] .chat {
+  background-color: var(--ak-surface-canvas);
+  background-image: linear-gradient(90deg, transparent 0, transparent calc(50% - 440px), var(--v2-line) calc(50% - 440px), var(--v2-line) calc(50% - 439px), transparent calc(50% - 439px));
+}
+html .app-shell[data-ui-version="2"] .message-list { width: min(880px, calc(100% - 52px)); padding-top: 28px; }
+html .app-shell[data-ui-version="2"] .message {
+  gap: 14px;
+  margin-bottom: 12px;
+  padding: 16px;
+  border: 1px solid var(--ak-line-color);
+  border-left: 4px solid var(--ak-signal-accent);
+  background: var(--ak-surface-panel);
+}
+html .app-shell[data-ui-version="2"] .message.user {
+  margin-left: min(90px, 9%);
+  border-left-color: var(--ak-text-secondary);
+  background: var(--ak-surface-muted);
+}
+html .app-shell[data-ui-version="2"] .avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 0;
+  background: var(--v2-chrome);
+  color: var(--ak-signal-accent);
+}
+html .app-shell[data-ui-version="2"] .empty-state {
+  align-items: flex-start;
+  width: min(680px, 100%);
+  margin: 0 auto;
+  text-align: left;
+}
+html .app-shell[data-ui-version="2"] .empty-state .orbit {
+  width: 78px;
+  height: 78px;
+  border: 1px solid var(--ak-line-color);
+  border-radius: 0;
+  background: var(--v2-chrome);
+  color: var(--ak-signal-accent);
+}
+html .app-shell[data-ui-version="2"] .empty-state .orbit::after { width: 16px; height: 3px; top: auto; right: -8px; bottom: 11px; border-radius: 0; background: var(--ak-signal-accent); }
+html .app-shell[data-ui-version="2"] .empty-state h2 { margin-top: 28px; font-size: 29px; }
+html .app-shell[data-ui-version="2"] .empty-state p { margin-left: 0; font-size: 13px; }
+html .app-shell[data-ui-version="2"] .composer-wrap {
+  padding: 11px 22px 18px;
+  border-top: 1px solid var(--ak-line-color);
+  background: var(--ak-surface-muted);
+}
+html .app-shell[data-ui-version="2"] .composer {
+  width: min(880px, 100%);
+  padding: 9px;
+  border: 1px solid var(--ak-line-color);
+  border-left: 4px solid var(--ak-signal-accent);
+  border-radius: 0;
+  background: var(--ak-surface-panel);
+  box-shadow: 0 3px 0 #15233212;
+}
+html .app-shell[data-ui-version="2"] .composer:focus-within { border-color: var(--ak-signal-accent); box-shadow: var(--ak-shadow-signal); }
+html .app-shell[data-ui-version="2"] .composer textarea { font-size: 14px; }
+
+/* Chat context remains visible, while workbench surfaces get their own assistant. */
+html .app-shell[data-ui-version="2"] .inspector {
+  grid-column: 4;
+  grid-row: 2;
+  border-left: 1px solid var(--ak-line-color);
+  background: var(--ak-surface-muted);
+}
+html .app-shell[data-ui-version="2"] .inspector-head {
+  height: 88px;
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-panel);
+  color: var(--ak-text-primary);
+  font: 800 17px var(--ak-font-command);
+}
+html .app-shell[data-ui-version="2"] .inspector section { border-color: var(--ak-line-color); }
+html .app-shell[data-ui-version="2"] .inspector h2 { color: var(--ak-text-secondary); font: 700 10px var(--ak-font-mono); letter-spacing: .1em; }
+html .app-shell[data-ui-version="2"] .inspector-head b,
+html .app-shell[data-ui-version="2"] .asset i { border-radius: 0; background: var(--v2-blue-wash); color: var(--kanna-accent-ink); }
+html .app-shell[data-ui-version="2"] .graph-canvas { background-color: var(--ak-surface-canvas); background-image: linear-gradient(var(--v2-line) 1px, transparent 1px),linear-gradient(90deg,var(--v2-line) 1px, transparent 1px); background-size: 24px 24px; }
+html .app-shell[data-ui-version="2"] :is(.graph-node,.graph-detail) { border-radius: 0; background: var(--ak-surface-panel); box-shadow: 3px 3px 0 color-mix(in srgb, var(--ak-line-color) 52%, transparent); }
+
+@media (max-width: 1240px) and (min-width: 761px) {
+  html .app-shell[data-ui-version="2"] { grid-template-columns: var(--sidebar-width) 8px minmax(0,1fr); }
+  html .app-shell[data-ui-version="2"] .inspector { display: none; }
+  html .app-shell[data-ui-version="2"] .rail-identity { min-width: 176px; }
+  html .app-shell[data-ui-version="2"] .workbench-nav small { display: none; }
+  html .app-shell[data-ui-version="2"] :is(.traffic-workspace,.passive-recon-workspace,.request-lab-workspace) {
+    grid-template-columns: minmax(0,1fr) 248px;
+  }
+  html .app-shell[data-ui-version="2"] .nuclei-layout { grid-template-columns: minmax(0,1fr); }
+  html .app-shell[data-ui-version="2"] .nuclei-history { min-height: 160px; max-height: 240px; overflow: auto; }
+}
+@media (max-width: 900px) and (min-width: 761px) {
+  html .app-shell[data-ui-version="2"] .rail-button b,
+  html .app-shell[data-ui-version="2"] .rail-identity small { display: none; }
+  html .app-shell[data-ui-version="2"] .rail-identity { min-width: 142px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html .app-shell[data-ui-version="2"] :is(.rail-button,.workbench-nav button,.sidebar-item-row) { transition-duration: .01ms; }
+}

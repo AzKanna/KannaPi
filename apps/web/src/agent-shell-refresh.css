@@ -1,0 +1,492 @@
+/* Agent shell refresh: ak-ui system density, native controls and project-owned cards. */
+html .app-shell[data-ui-version="2"] .brand-mark {
+  font: 800 29px/1 var(--ak-font-command);
+  clip-path: polygon(0 0, 100% 0, 100% 73%, 75% 100%, 0 100%);
+}
+
+html .app-shell[data-ui-version="2"] .sidebar {
+  background: var(--ak-surface-muted);
+  scrollbar-color: var(--ak-line-color) transparent;
+}
+html .app-shell[data-ui-version="2"] .sidebar-intro {
+  gap: var(--ak-space-2);
+  min-height: 124px;
+  padding: var(--ak-space-5) var(--ak-space-4) var(--ak-space-4);
+  background: var(--ak-surface-panel);
+}
+html .app-shell[data-ui-version="2"] .sidebar-intro > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--ak-text-secondary);
+  font-size: 10px;
+}
+html .app-shell[data-ui-version="2"] .sidebar-intro > span i {
+  width: 28px;
+  height: 3px;
+  background: var(--ak-signal-info);
+  box-shadow: 8px 0 0 color-mix(in srgb, var(--ak-signal-info) 28%, transparent);
+}
+html .app-shell[data-ui-version="2"] .sidebar-intro strong { font-size: 25px; }
+html .app-shell[data-ui-version="2"] .sidebar-intro small { font-size: 11px; }
+
+html .app-shell[data-ui-version="2"] .workbench-nav {
+  gap: var(--ak-space-4);
+  padding: var(--ak-space-4) var(--ak-space-3) var(--ak-space-2);
+}
+html .app-shell[data-ui-version="2"] .workbench-nav-group { gap: var(--ak-space-1); }
+html .app-shell[data-ui-version="2"] .workbench-nav-label {
+  margin: 0;
+  padding: 0 var(--ak-space-1) var(--ak-space-1);
+  border: 0;
+  color: var(--ak-text-secondary);
+  font: 700 10px/1.3 var(--ak-font-mono);
+  letter-spacing: .11em;
+}
+html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 15px;
+  gap: var(--ak-space-3);
+  align-items: center;
+  min-height: 56px;
+  padding: var(--ak-space-2) var(--ak-space-3);
+  border: 1px solid var(--ak-line-color);
+  border-left: var(--ak-line-strong) solid transparent;
+  background: var(--ak-surface-panel);
+  color: var(--ak-text-primary);
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--ak-surface-inverse) 7%, transparent);
+  transition: transform var(--ak-motion-fast) var(--ak-ease-standard),
+    border-color var(--ak-motion-fast) var(--ak-ease-standard),
+    background var(--ak-motion-fast) var(--ak-ease-standard),
+    box-shadow var(--ak-motion-fast) var(--ak-ease-standard);
+  animation: kanna-nav-enter var(--ak-motion-slow) var(--ak-ease-emphasized) both;
+}
+html .app-shell[data-ui-version="2"] .workbench-nav-group:nth-child(2) .workbench-card { animation-delay: 70ms; }
+html .app-shell[data-ui-version="2"] .workbench-nav-group:nth-child(3) .workbench-card { animation-delay: 140ms; }
+html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card:is(:hover, :focus-visible) {
+  transform: translateX(3px);
+  border-color: var(--v2-blue-line);
+  box-shadow: 0 5px 14px color-mix(in srgb, var(--ak-surface-inverse) 13%, transparent);
+}
+html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card.selected {
+  border-color: var(--v2-blue-line);
+  border-left-color: var(--ak-signal-info);
+  background: var(--v2-blue-wash);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--ak-signal-info) 11%, transparent);
+}
+html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card:active { transform: translateX(1px) scale(.99); }
+html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card:focus-visible {
+  outline: var(--ak-focus-width) solid var(--ak-focus-color);
+  outline-offset: var(--ak-focus-offset);
+}
+html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card > .workbench-card-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--ak-line-color);
+  background: var(--ak-surface-muted);
+  color: var(--ak-text-primary);
+  transition: background var(--ak-motion-fast) var(--ak-ease-standard),
+    color var(--ak-motion-fast) var(--ak-ease-standard),
+    transform var(--ak-motion-fast) var(--ak-ease-standard);
+}
+html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card.selected > .workbench-card-icon {
+  border-color: var(--v2-chrome);
+  background: var(--v2-chrome);
+  color: var(--ak-signal-info);
+}
+html .app-shell[data-ui-version="2"] .workbench-card:hover .workbench-card-icon { transform: translateY(-2px); }
+html .app-shell[data-ui-version="2"] .workbench-card-icon svg { width: 20px; height: 20px; }
+html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card > .workbench-card-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  width: auto;
+  height: auto;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  place-items: initial;
+}
+html .app-shell[data-ui-version="2"] .workbench-card-copy b {
+  overflow: hidden;
+  color: var(--ak-text-primary);
+  font: 700 12px/1.2 var(--ak-font-sans);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card-copy small {
+  overflow: hidden;
+  color: var(--ak-text-secondary);
+  font: 400 10px/1.2 var(--ak-font-sans);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card > .workbench-card-arrow {
+  width: 15px;
+  height: auto;
+  border: 0;
+  background: transparent;
+  color: var(--ak-text-secondary);
+  font: 600 14px/1 var(--ak-font-mono);
+  opacity: .52;
+  transition: opacity var(--ak-motion-fast), transform var(--ak-motion-fast);
+}
+html .app-shell[data-ui-version="2"] .workbench-card:is(:hover, .selected) .workbench-card-arrow {
+  color: var(--ak-signal-info);
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+html .app-shell[data-ui-version="2"] .sidebar-heading {
+  margin: var(--ak-space-4) var(--ak-space-3) var(--ak-space-2);
+  padding: var(--ak-space-2) var(--ak-space-1) 0;
+  color: var(--ak-text-secondary);
+}
+html .app-shell[data-ui-version="2"] .sidebar-heading button {
+  width: 34px;
+  height: 34px;
+  transition: border-color var(--ak-motion-fast), background var(--ak-motion-fast), transform var(--ak-motion-fast);
+}
+html .app-shell[data-ui-version="2"] .sidebar-heading button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--ak-signal-info);
+  background: var(--v2-blue-wash);
+}
+html .app-shell[data-ui-version="2"] :is(.project-list, .agent-list, .session-list) {
+  display: grid;
+  gap: var(--ak-space-2);
+  padding: 0 var(--ak-space-3) var(--ak-space-2);
+}
+html .app-shell[data-ui-version="2"] :is(.sidebar-item-row, .session-row) {
+  min-height: 52px;
+  border: 1px solid var(--ak-line-color);
+  border-left: 3px solid transparent;
+  background: var(--ak-surface-panel);
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--ak-surface-inverse) 6%, transparent);
+  transition: border-color var(--ak-motion-fast), background var(--ak-motion-fast), transform var(--ak-motion-fast);
+}
+html .app-shell[data-ui-version="2"] :is(.sidebar-item-row, .session-row):is(:hover, :focus-within) {
+  transform: translateX(2px);
+  border-color: var(--v2-blue-line);
+}
+html .app-shell[data-ui-version="2"] :is(.sidebar-item-row, .session-row).selected {
+  border-left-color: var(--ak-signal-info);
+  background: var(--v2-blue-wash);
+  box-shadow: none;
+}
+html .app-shell[data-ui-version="2"] .sidebar-item-select { min-height: 50px; }
+html .app-shell[data-ui-version="2"] .sidebar-item-actions { gap: 0; }
+html .app-shell[data-ui-version="2"] .sidebar-item-actions button {
+  width: 32px;
+  height: 32px;
+  border-radius: 0;
+}
+html .app-shell[data-ui-version="2"] :is(.sidebar-item-actions button, .session-row button, .sidebar-heading button):focus-visible {
+  outline: var(--ak-focus-width) solid var(--ak-focus-color);
+  outline-offset: 1px;
+}
+html .app-shell[data-ui-version="2"] .sidebar-bench-sessions { margin: var(--ak-space-3); border-color: var(--ak-line-color); }
+
+/* ak-form anatomy: labelled field, native textarea/select, independent command strip. */
+html .app-shell[data-ui-version="2"] .composer-wrap {
+  container-type: inline-size;
+  padding: 6px var(--ak-space-4) var(--ak-space-2);
+  background: var(--ak-surface-muted);
+}
+html .app-shell[data-ui-version="2"] .queue-note { width: min(940px, 100%); }
+html .app-shell[data-ui-version="2"] .topbar { position: relative; z-index: 8; }
+html .app-shell[data-ui-version="2"] .chat-context {
+  position: relative;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #dceaf4;
+}
+html .app-shell[data-ui-version="2"] .chat-context-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--ak-space-2);
+  min-height: 36px;
+  padding: 5px var(--ak-space-3);
+  border: 1px solid #4a5e6f;
+  background: #192938;
+  color: #dceaf4;
+  cursor: pointer;
+  font: 700 10px/1 var(--ak-font-mono);
+  list-style: none;
+  white-space: nowrap;
+  transition: border-color var(--ak-motion-fast), background var(--ak-motion-fast);
+}
+html .app-shell[data-ui-version="2"] .chat-context-trigger::-webkit-details-marker { display: none; }
+html .app-shell[data-ui-version="2"] .chat-context-trigger::marker { content: ""; }
+html .app-shell[data-ui-version="2"] .chat-context-trigger:hover,
+html .app-shell[data-ui-version="2"] .chat-context[open] .chat-context-trigger {
+  border-color: var(--ak-signal-info);
+  background: var(--v2-chrome);
+}
+html .app-shell[data-ui-version="2"] .chat-context-trigger:focus-visible {
+  outline: var(--ak-focus-width) solid var(--ak-focus-color);
+  outline-offset: var(--ak-focus-offset);
+}
+html .app-shell[data-ui-version="2"] .chat-context-trigger > span:first-child { color: var(--ak-signal-info); font-size: 15px; }
+html .app-shell[data-ui-version="2"] .chat-context-panel {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + var(--ak-space-2));
+  right: 0;
+  width: min(360px, calc(100vw - 24px));
+  max-height: min(430px, calc(100vh - 170px));
+  overflow: auto;
+  padding: var(--ak-space-4);
+  border: 1px solid var(--ak-line-color);
+  border-top: 3px solid var(--ak-signal-info);
+  background: var(--ak-surface-panel);
+  color: var(--ak-text-primary);
+  box-shadow: var(--ak-shadow-panel);
+}
+html .app-shell[data-ui-version="2"] .chat-context-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--ak-space-2);
+  min-width: 0;
+  color: var(--ak-text-secondary);
+  white-space: normal;
+}
+html .app-shell[data-ui-version="2"] .chat-context-row strong { color: var(--ak-text-primary); }
+html .app-shell[data-ui-version="2"] .chat-context-panel > button {
+  min-height: 36px;
+  margin: var(--ak-space-2) 0 0;
+  padding: var(--ak-space-2) var(--ak-space-3);
+  border-color: var(--ak-line-color);
+  background: var(--ak-surface-muted);
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ui-version="2"] .chat-context-panel > button:hover:not(:disabled) { border-color: var(--ak-signal-info); background: var(--v2-blue-wash); }
+html .app-shell[data-ui-version="2"] .chat-context-panel > button:focus-visible,
+html .app-shell[data-ui-version="2"] .chat-context-panel summary:focus-visible {
+  outline: var(--ak-focus-width) solid var(--ak-focus-color);
+  outline-offset: var(--ak-focus-offset);
+}
+html .app-shell[data-ui-version="2"] .chat-context progress {
+  width: 100%;
+  height: 4px;
+  margin: var(--ak-space-3) 0 0;
+  accent-color: var(--ak-signal-info);
+}
+html .app-shell[data-ui-version="2"] .chat-context-panel > details {
+  margin: var(--ak-space-3) 0 0;
+  padding-top: var(--ak-space-2);
+  border-top: 1px solid var(--ak-line-color);
+  color: var(--ak-text-secondary);
+  font-size: 11px;
+}
+html .app-shell[data-ui-version="2"] .chat-context-panel > details > summary { cursor: pointer; }
+html .app-shell[data-ui-version="2"] .chat-context-panel > details[open] > summary { color: var(--ak-text-primary); }
+html .app-shell[data-ui-version="2"] .composer {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  width: min(940px, 100%);
+  padding: 0;
+  border: 1px solid var(--ak-line-color);
+  border-top: 2px solid var(--ak-signal-info);
+  background: var(--ak-surface-panel);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--ak-surface-inverse) 12%, transparent);
+}
+html .app-shell[data-ui-version="2"] .composer:focus-within {
+  border-color: var(--ak-line-color);
+  border-top-color: var(--ak-signal-info);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--ak-surface-inverse) 12%, transparent);
+}
+html .app-shell[data-ui-version="2"] .composer .pending-attachments { padding: var(--ak-space-2) var(--ak-space-3) 0; }
+html .app-shell[data-ui-version="2"] .composer-field {
+  --ak-field-signal: var(--ak-signal-info);
+  min-width: 0;
+  gap: var(--ak-space-1);
+  padding: var(--ak-space-2) var(--ak-space-3);
+  color: var(--ak-text-primary);
+  font-family: var(--ak-font-sans);
+}
+html .app-shell[data-ui-version="2"] .composer-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--ak-space-1) var(--ak-space-3);
+}
+html .app-shell[data-ui-version="2"] .composer-field .ak-label,
+html .app-shell[data-ui-version="2"] .composer-model-field .ak-label {
+  color: var(--ak-text-secondary);
+  font: 700 10px/1.3 var(--ak-font-mono);
+  letter-spacing: .08em;
+}
+html .app-shell[data-ui-version="2"] .composer .composer-textarea.ak-textarea {
+  grid-column: auto;
+  min-height: 58px;
+  max-height: 180px;
+  padding: var(--ak-space-2) var(--ak-space-3);
+  border: 1px solid var(--ak-line-color);
+  border-left: var(--ak-line-strong) solid var(--ak-signal-info);
+  border-radius: 0;
+  outline: none;
+  background: var(--ak-surface-muted);
+  color: var(--ak-text-primary);
+  caret-color: var(--ak-signal-info);
+  font: 400 14px/1.55 var(--ak-font-sans);
+  resize: vertical;
+  transition: border-color var(--ak-motion-fast), box-shadow var(--ak-motion-fast), background var(--ak-motion-fast);
+}
+html .app-shell[data-ui-version="2"] .composer .composer-textarea.ak-textarea::placeholder { color: var(--v2-placeholder); }
+html .app-shell[data-ui-version="2"] .composer .composer-textarea.ak-textarea:is(:hover, :focus-visible) { border-color: var(--v2-blue-line); border-left-color: var(--ak-signal-info); }
+html .app-shell[data-ui-version="2"] .composer .composer-textarea.ak-textarea:focus-visible {
+  background: var(--ak-surface-panel);
+  box-shadow: 0 0 0 var(--ak-focus-width) color-mix(in srgb, var(--ak-focus-color) 20%, transparent);
+}
+html .app-shell[data-ui-version="2"] .composer-field .ak-field__hint {
+  color: var(--ak-text-secondary);
+  font: 400 10px/1.3 var(--ak-font-mono);
+}
+html .app-shell[data-ui-version="2"] .composer-toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ak-space-2);
+  padding: 6px var(--ak-space-3);
+  border-top: 1px solid var(--ak-line-color);
+  background: var(--ak-surface-muted);
+}
+html .app-shell[data-ui-version="2"] .composer-meta {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: var(--ak-space-2);
+  padding: 0;
+  color: var(--ak-text-secondary);
+  font: 500 10px/1.3 var(--ak-font-mono);
+}
+html .app-shell[data-ui-version="2"] .composer-meta > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html .app-shell[data-ui-version="2"] .attach-button {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--ak-line-color);
+  border-radius: 0;
+  background: var(--ak-surface-panel);
+  color: var(--ak-text-primary);
+  font-size: 22px;
+  transition: border-color var(--ak-motion-fast), background var(--ak-motion-fast), transform var(--ak-motion-fast);
+}
+html .app-shell[data-ui-version="2"] .attach-button:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--ak-signal-info); background: var(--v2-blue-wash); }
+html .app-shell[data-ui-version="2"] .model-send-controls,
+html .app-shell[data-ui-version="2"] .model-send-controls.is-running {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ak-space-2);
+  min-width: 0;
+}
+html .app-shell[data-ui-version="2"] .composer-model-field {
+  --ak-field-signal: var(--ak-signal-info);
+  position: relative;
+  width: 174px;
+  min-width: 135px;
+  gap: 0;
+  color: var(--ak-text-primary);
+}
+html .app-shell[data-ui-version="2"] .composer-model-field .ak-label {
+  position: absolute;
+  top: 4px;
+  left: 12px;
+  z-index: 1;
+  font-size: 8px;
+  pointer-events: none;
+}
+html .app-shell[data-ui-version="2"] .model-send-controls .composer-model-field .ak-select {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  min-height: 44px;
+  padding: 16px 36px 4px 10px;
+  border: 1px solid var(--ak-line-color);
+  border-left: 3px solid var(--ak-signal-info);
+  border-radius: 0;
+  background-color: var(--ak-surface-panel);
+  background-image: linear-gradient(45deg, transparent 50%, var(--ak-text-primary) 50%), linear-gradient(135deg, var(--ak-text-primary) 50%, transparent 50%), linear-gradient(to right, var(--ak-line-color), var(--ak-line-color));
+  background-position: calc(100% - 18px) 19px, calc(100% - 12px) 19px, calc(100% - 31px) 9px;
+  background-size: 6px 6px, 6px 6px, 1px 25px;
+  background-repeat: no-repeat;
+  color: var(--ak-text-primary);
+  font: 500 11px var(--ak-font-sans);
+}
+html .app-shell[data-ui-version="2"] .composer-model-field .ak-select:focus-visible { border-color: var(--ak-signal-info); box-shadow: 0 0 0 var(--ak-focus-width) color-mix(in srgb, var(--ak-focus-color) 20%, transparent); }
+html .app-shell[data-ui-version="2"] .model-send-controls.is-running .composer-model-field { display: none; }
+html .app-shell[data-ui-version="2"] .model-send-controls .thinking-level.compact {
+  width: 140px;
+  min-height: 44px;
+  gap: 2px;
+  padding: 3px var(--ak-space-2);
+  border: 1px solid var(--ak-line-color);
+  border-radius: 0;
+  background: var(--ak-surface-panel);
+}
+html .app-shell[data-ui-version="2"] .thinking-level.compact .thinking-level-heading { color: var(--ak-text-secondary); font: 700 9px/1.2 var(--ak-font-mono); }
+html .app-shell[data-ui-version="2"] .thinking-level.compact .thinking-level-heading > b { color: var(--ak-text-primary); font: 700 9px/1.2 var(--ak-font-mono); }
+html .app-shell[data-ui-version="2"] .composer .send,
+html .app-shell[data-ui-version="2"] .composer .composer-stop,
+html .app-shell[data-ui-version="2"] .composer .running-actions button {
+  min-height: 44px;
+  padding: 0 var(--ak-space-4);
+  border-radius: 0;
+  font: 700 12px var(--ak-font-sans);
+}
+html .app-shell[data-ui-version="2"] .composer .send {
+  min-width: 86px;
+  border: 1px solid var(--ak-signal-info);
+  background: var(--ak-signal-info);
+  color: var(--v2-chrome);
+  box-shadow: inset 3px 0 var(--v2-chrome);
+}
+html .app-shell[data-ui-version="2"] .composer .send:hover:not(:disabled) { transform: translateY(-2px); background: color-mix(in srgb, var(--ak-signal-info) 80%, var(--ak-surface-panel)); }
+html .app-shell[data-ui-version="2"] .composer .send:disabled { border-color: var(--ak-line-color); background: var(--ak-surface-raised); color: var(--ak-text-secondary); box-shadow: none; opacity: .7; }
+html .app-shell[data-ui-version="2"] .composer :is(.send, .attach-button, .composer-stop, .running-actions button):focus-visible {
+  outline: var(--ak-focus-width) solid var(--ak-focus-color);
+  outline-offset: var(--ak-focus-offset);
+}
+
+@keyframes kanna-nav-enter {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (max-width: 1240px) and (min-width: 761px) {
+  html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card-copy small { display: block; }
+}
+@container (max-width: 620px) {
+  html .app-shell[data-ui-version="2"] .composer-meta { flex: 0 0 44px; }
+  html .app-shell[data-ui-version="2"] .composer-meta > span { display: none; }
+  html .app-shell[data-ui-version="2"] .model-send-controls,
+  html .app-shell[data-ui-version="2"] .model-send-controls.is-running { flex: 1 1 auto; gap: var(--ak-space-1); }
+  html .app-shell[data-ui-version="2"] .composer-model-field { flex: 1 1 120px; width: auto; min-width: 0; }
+  html .app-shell[data-ui-version="2"] .model-send-controls .thinking-level.compact { flex: 0 1 120px; width: 120px; }
+  html .app-shell[data-ui-version="2"] .composer .send { flex: 0 0 78px; min-width: 0; padding: 0 var(--ak-space-2); }
+  html .app-shell[data-ui-version="2"] .running-actions { flex-wrap: wrap; justify-content: flex-end; }
+}
+@media (max-width: 760px) {
+  html .app-shell[data-ui-version="2"] .composer-wrap { padding: var(--ak-space-2); }
+  html .app-shell[data-ui-version="2"] .composer-toolbar { flex-wrap: wrap; }
+  html .app-shell[data-ui-version="2"] .model-send-controls { flex: 1 1 100%; justify-content: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html .app-shell[data-ui-version="2"] .workbench-nav .workbench-card { animation: none; }
+  html .app-shell[data-ui-version="2"] :is(.workbench-card, .workbench-card-icon, .workbench-card-arrow, .sidebar-item-row, .session-row, .attach-button, .send) { transition-duration: .01ms; }
+}

@@ -1,0 +1,78 @@
+{
+  "name": "@kanna/desktop",
+  "version": "0.2.1",
+  "private": true,
+  "type": "module",
+  "description": "KannaPi Windows desktop shell",
+  "author": "KannaPi",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc -b",
+    "prepare:tshark": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-tshark.ps1",
+    "dev": "pnpm run prepare:tshark && electron .",
+    "pack": "pnpm run prepare:tshark && node scripts/prepare-runtime.mjs && electron-builder --dir",
+    "dist": "pnpm run prepare:tshark && node scripts/prepare-runtime.mjs && electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "@kanna/server": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "electron": "44.3.0",
+    "electron-builder": "26.15.3",
+    "typescript": "^5.9.3"
+  },
+  "build": {
+    "appId": "cn.kannapi.desktop",
+    "productName": "KannaPi",
+    "asar": true,
+    "npmRebuild": false,
+    "directories": {
+      "output": "../../release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "build/tshark",
+        "to": "tshark",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "build/agent-native",
+        "to": "agent-native",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "../web/dist",
+        "to": "web",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "../../services/proxy",
+        "to": "proxy",
+        "filter": ["flow_sink.py", "requirements.txt"]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "KannaPi-${version}-Setup-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "KannaPi",
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "kannapi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "KannaPi — local project and asset workspace for persistent, controllable Pi Agents",
+  "type": "module",
+  "packageManager": "pnpm@12.3.4",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "scripts": {
+    "build": "tsc -b && pnpm --filter @kanna/web exec tsc --noEmit && pnpm --filter @kanna/web build",
+    "desktop:dev": "pnpm build && pnpm --filter @kanna/desktop run dev",
+    "desktop:pack": "pnpm build && pnpm --filter @kanna/desktop run pack",
+    "desktop:dist": "pnpm build && pnpm --filter @kanna/desktop run dist",
+    "clean": "tsc -b --clean",
+    "typecheck": "tsc -b --force",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "spike": "node spike/spike.mjs",
+    "juice-shop": "node scripts/juice-shop.mjs",
+    "eval:repeat": "node scripts/repeat-eval.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.12",
+    "@types/node": "^24.0.0",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11",
+    "ws": "^8.21.3",
+    "@types/ws": "^8.5.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/shared" },
+    { "path": "./packages/database" },
+    { "path": "./packages/traffic" },
+    { "path": "./packages/browser" },
+    { "path": "./packages/state" },
+    { "path": "./packages/security" },
+    { "path": "./packages/agent" },
+    { "path": "./apps/server" },
+    { "path": "./apps/desktop" }
+  ]
+}

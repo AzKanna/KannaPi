@@ -1,0 +1,195 @@
+/* Night palette: neutral graphite with blue commands and muted status colors. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --night-canvas: #111315;
+  --night-sidebar: #1b1e21;
+  --night-surface: #222528;
+  --night-raised: #2d3235;
+  --night-input: #181c1f;
+  --night-border: #394145;
+  --night-text: #f8f8f5;
+  --night-muted: #b6bdbe;
+  --night-accent: #4aabea;
+  --night-accent-bg: #1f3848;
+  --night-danger: #f19292;
+  background: var(--night-canvas);
+  color: var(--night-text);
+}
+
+html[data-theme="dark"] body,
+html[data-theme="dark"] #root { background: var(--night-canvas); }
+html[data-theme="dark"] .app-shell { background: var(--night-canvas); color: var(--night-text); }
+html[data-theme="dark"] .app-shell :is(h1,h2,h3,h4,b,strong,span,em,label,summary,button,input,textarea,select,code) { color: var(--night-text); }
+html[data-theme="dark"] .app-shell :is(p,small,time) { color: var(--night-muted); }
+html[data-theme="dark"] .app-shell :is(a,.markdown-body a) { color: var(--night-accent); }
+html[data-theme="dark"] .app-shell :is(input,textarea,select) { border-color: var(--night-border); background-color: var(--night-input); color: var(--night-text); caret-color: var(--night-accent); }
+html[data-theme="dark"] .app-shell :is(input,textarea)::placeholder { color: #839987; opacity: 1; }
+html[data-theme="dark"] .app-shell :is(input,textarea,select):focus { border-color: var(--night-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--night-accent) 24%, transparent); }
+html[data-theme="dark"] .app-shell :is(button,input,textarea,select):focus-visible { outline-color: var(--night-accent); }
+
+/* Shell, chat, dialogs and graph. */
+html[data-theme="dark"] .rail { background: #0b0d0f; }
+html[data-theme="dark"] .brand-mark { color: #132633; background: var(--night-accent); }
+html[data-theme="dark"] .rail-button { color: #adb7bc; }
+html[data-theme="dark"] .rail-button.active,
+html[data-theme="dark"] .rail-theme-toggle:hover { background: var(--night-accent-bg); color: var(--night-accent); }
+html[data-theme="dark"] .sidebar,
+html[data-theme="dark"] .workspace-resizer,
+html[data-theme="dark"] .inspector { background: var(--night-sidebar); }
+html[data-theme="dark"] .workspace-resizer::before { background: var(--night-border); }
+html[data-theme="dark"] .workspace,
+html[data-theme="dark"] .topbar,
+html[data-theme="dark"] .chat,
+html[data-theme="dark"] .graph-toolbar,
+html[data-theme="dark"] .graph-footnote { background: var(--night-canvas); }
+html[data-theme="dark"] .topbar,
+html[data-theme="dark"] .brand,
+html[data-theme="dark"] .inspector,
+html[data-theme="dark"] .inspector-head,
+html[data-theme="dark"] .inspector section,
+html[data-theme="dark"] .graph-toolbar,
+html[data-theme="dark"] .graph-footnote { border-color: var(--night-border); }
+html[data-theme="dark"] .workbench-nav button:hover,
+html[data-theme="dark"] .workbench-nav button.selected,
+html[data-theme="dark"] .sidebar-item-row:hover,
+html[data-theme="dark"] .sidebar-item-row.selected,
+html[data-theme="dark"] .session-row:hover,
+html[data-theme="dark"] .session-row.selected,
+html[data-theme="dark"] .sidebar-bench-row:hover,
+html[data-theme="dark"] .sidebar-bench-row.selected { background: var(--night-raised); }
+html[data-theme="dark"] :is(.workbench-nav button>span,.project-icon,.inspector-head b,.asset i,.status-pill,.capability-summary span) { border-color: var(--night-border); background: var(--night-surface); }
+html[data-theme="dark"] :is(.workbench-nav button.selected>span,.status-pill.running) { border-color: var(--night-accent); background: var(--night-accent-bg); }
+html[data-theme="dark"] .sidebar-bench-sessions { border-color: var(--night-border); }
+html[data-theme="dark"] .sidebar-bench-delete:hover:not(:disabled),
+html[data-theme="dark"] .session-delete:hover:not(:disabled) { background: #563030; color: var(--night-danger); }
+html[data-theme="dark"] .chat { scrollbar-color: #56616b var(--night-canvas); }
+html[data-theme="dark"] .chat::-webkit-scrollbar-track { background: var(--night-canvas); }
+html[data-theme="dark"] .chat::-webkit-scrollbar-thumb { border-color: var(--night-canvas); background: #56616b; }
+html[data-theme="dark"] .composer-wrap { background: linear-gradient(transparent, var(--night-canvas) 25%); }
+html[data-theme="dark"] .composer,
+html[data-theme="dark"] .pending-attachment,
+html[data-theme="dark"] .message-attachment,
+html[data-theme="dark"] .capability-row,
+html[data-theme="dark"] .mcp-card { border-color: var(--night-border); background: var(--night-surface); }
+html[data-theme="dark"] .composer textarea { background: transparent; }
+html[data-theme="dark"] .model-send-controls select,
+html[data-theme="dark"] .attach-button,
+html[data-theme="dark"] .running-actions button,
+html[data-theme="dark"] .dialog .secondary { border-color: var(--night-border); background: var(--night-raised); }
+html[data-theme="dark"] .thinking-level.compact,
+html[data-theme="dark"] .thinking-level-heading>b { border-color: var(--night-border); background: var(--night-raised); }
+html[data-theme="dark"] .thinking-level input[type="range"] { background: transparent; }
+html[data-theme="dark"] .thinking-level input[type="range"]::-webkit-slider-runnable-track { background: linear-gradient(90deg, var(--night-accent) 0 var(--thinking-progress), var(--night-border) var(--thinking-progress) 100%); }
+html[data-theme="dark"] .thinking-level input[type="range"]::-moz-range-track { background: var(--night-border); }
+html[data-theme="dark"] .thinking-level input[type="range"]::-moz-range-progress { background: var(--night-accent); }
+html[data-theme="dark"] .send,
+html[data-theme="dark"] .dialog .primary { background: var(--night-accent); color: #132633; }
+html[data-theme="dark"] .running-actions .composer-stop { background: #a94d48; color: white; }
+html[data-theme="dark"] .markdown-body,
+html[data-theme="dark"] .message p { color: var(--night-text); }
+html[data-theme="dark"] .markdown-body :is(h1,h2,h3,h4,strong) { color: #f8f8f5; }
+html[data-theme="dark"] .markdown-body code { border-color: var(--night-border); background: var(--night-raised); color: var(--night-text); }
+html[data-theme="dark"] .markdown-body pre { border-color: var(--night-border); background: #0b0d0f; }
+html[data-theme="dark"] .markdown-body pre code { border: 0; background: transparent; color: var(--night-text); }
+html[data-theme="dark"] .markdown-body blockquote,
+html[data-theme="dark"] .markdown-body th { border-color: var(--night-accent); background: var(--night-raised); }
+html[data-theme="dark"] .markdown-body :is(th,td),
+html[data-theme="dark"] .markdown-body hr { border-color: var(--night-border); }
+html[data-theme="dark"] .modal-backdrop { background: #05070acc; }
+html[data-theme="dark"] .dialog,
+html[data-theme="dark"] .startup-overlay { background: var(--night-surface); }
+html[data-theme="dark"] .dialog>header,
+html[data-theme="dark"] .capabilities-dialog>section+section { border-color: var(--night-border); }
+html[data-theme="dark"] .startup-mark { border-color: var(--night-accent); background: var(--night-accent-bg); }
+html[data-theme="dark"] .graph-canvas { background-color: var(--night-canvas); background-image: radial-gradient(var(--night-border) 1px, transparent 1px); scrollbar-color: #56616b var(--night-canvas); }
+html[data-theme="dark"] .graph-node,
+html[data-theme="dark"] .graph-detail,
+html[data-theme="dark"] .graph-summary span { border-color: var(--night-border); background: var(--night-surface); }
+html[data-theme="dark"] .graph-node { border-left-color: var(--node-color); }
+html[data-theme="dark"] .graph-link { stroke: #84939b; }
+html[data-theme="dark"] .graph-link-label { fill: #bad0bc; stroke: var(--night-canvas); }
+html[data-theme="dark"] .graph-session-picker { border-color: var(--night-border); background: var(--night-surface); }
+html[data-theme="dark"] .graph-session-picker select { border-color: var(--night-border); background: var(--night-input); }
+
+/* Settings and appearance. */
+html[data-theme="dark"] .settings-workspace,
+html[data-theme="dark"] .settings-content { background: var(--night-canvas); }
+html[data-theme="dark"] .settings-nav { border-color: var(--night-border); background: var(--night-sidebar); }
+html[data-theme="dark"] .settings-nav>button:hover,
+html[data-theme="dark"] .settings-nav>button.selected { border-color: var(--night-border); background: var(--night-raised); }
+html[data-theme="dark"] .settings-nav-icon,
+html[data-theme="dark"] .settings-nav em { border-color: var(--night-border); background: var(--night-surface); }
+html[data-theme="dark"] .settings-nav>button.selected .settings-nav-icon,
+html[data-theme="dark"] .settings-nav>button.selected em { background: var(--night-accent-bg); }
+html[data-theme="dark"] .settings-scope { border-color: var(--night-border); }
+html[data-theme="dark"] :is(.settings-card,.settings-model-picker,.settings-server,.settings-empty,.settings-skill,.settings-thinking-control,.runtime-card,.search-preview article,.theme-options button,.scale-preview) { border-color: var(--night-border); background: var(--night-surface); }
+html[data-theme="dark"] :is(.settings-card-title>span,.settings-health,.settings-tool-chips code,.settings-server-icon,.settings-skill>span,.settings-empty>span,.settings-page-heading>b,.scale-output,.scale-presets button,.appearance-footnote span,.thinking-level-heading>b) { border-color: var(--night-border); background: var(--night-raised); }
+html[data-theme="dark"] :is(.settings-form input,.settings-form textarea,.settings-form select,.runtime-card input[type=number]) { border-color: var(--night-border); background: var(--night-input); }
+html[data-theme="dark"] :is(.settings-secondary,.settings-server footer button,.settings-skill button,.appearance-footnote button,.theme-options button,.scale-presets button) { border-color: var(--night-border); background: var(--night-raised); }
+html[data-theme="dark"] :is(.settings-primary,.runtime-save) { border-color: var(--night-accent); background: var(--night-accent); color: #132633; }
+html[data-theme="dark"] :is(.settings-notice,.scale-presets button.selected,.theme-options button.selected) { border-color: var(--night-accent); background: var(--night-accent-bg); }
+html[data-theme="dark"] .settings-health.ok { border-color: #75d49c; background: #20382b; color: #75d49c; }
+html[data-theme="dark"] :is(.appearance-footnote,.settings-advanced,.settings-model-picker,.settings-scope) { border-color: var(--night-border); }
+html[data-theme="dark"] .scale-preview-rail { background: #0b0d0f; }
+html[data-theme="dark"] .scale-preview > div > span { background: var(--night-border); }
+html[data-theme="dark"] .scale-preview > div > span:first-child { background: var(--night-accent); }
+
+/* Shared workbench surfaces. */
+html[data-theme="dark"] :is(.traffic-workspace,.passive-recon-workspace,.request-lab-workspace,.asset-map-workspace,.cyberchef-workspace,.ssh-workspace,.nuclei-workspace,.bench-workspace,.attack-graph) { background: var(--night-canvas); color: var(--night-text); }
+html[data-theme="dark"] :is(.traffic-toolbar,.recon-toolbar,.request-lab-tabs,.asset-searchbar,.cyberchef-toolbar,.ssh-toolbar,.nuclei-heading,.bench-heading,.bench-live-strip,.chef-statusbar,.graph-toolbar) { border-color: var(--night-border); background: var(--night-sidebar); }
+html[data-theme="dark"] :is(.traffic-search,.flow-controls,.demo-capture,.recon-metrics,.recon-distributions,.request-lab-import,.request-lab-scope,.asset-options,.asset-settings,.chef-bench,.ssh-hosts,.bench-intake-footer) { border-color: var(--night-border); background: var(--night-sidebar); }
+html[data-theme="dark"] :is(.bench-card,.bench-history,.bench-session-card,.bench-heading-metrics>span,.bench-session-detail,.bench-queue-item,.nuclei-card,.nuclei-history,.nuclei-options label,.recon-metrics article,.request-editor-pane,.response-view-pane,.chef-panel,.asset-searchbar form) { border-color: var(--night-border); background: var(--night-surface); }
+html[data-theme="dark"] :is(.bench-session-card:hover,.bench-session-card.selected,.bench-queue-item.solving,.bench-queue-item.starting,.nuclei-options label.selected,.request-lab-tab.selected,.ssh-hosts>button.selected) { border-color: var(--night-accent); background: var(--night-accent-bg); }
+html[data-theme="dark"] :is(.bench-tabbar,.bench-challenge-heading,.bench-intake-footer,.bench-queue-summary,.bench-session-detail,.bench-session-body,.bench-session-meta,.bench-session-messages,.bench-session-card,.bench-row,.bench-task,.bench-log-panel) { border-color: var(--night-border); }
+html[data-theme="dark"] :is(.bench-refresh,.bench-selection-actions button,.bench-live-actions button,.bench-quiet-button,.bench-task button,.bench-session-meta button,.nuclei-field input,.nuclei-field select,.nuclei-results-toolbar select,.recon-toolbar select,.recon-toolbar>button,.ssh-toolbar button,.ssh-terminal-head button,.ssh-command button) { border-color: var(--night-border); background: var(--night-raised); }
+html[data-theme="dark"] :is(.bench-start,.nuclei-start,.chef-primary) { background: var(--night-accent); color: #132633; }
+html[data-theme="dark"] .bench-session-status { background: var(--night-raised); color: var(--night-muted); }
+html[data-theme="dark"] .bench-session-status.solved { background: #20382b; color: #75d49c; }
+html[data-theme="dark"] .bench-session-status.failed,
+html[data-theme="dark"] .bench-session-status.stopped { background: #4d2c2b; color: var(--night-danger); }
+html[data-theme="dark"] :is(.bench-session-mark,.bench-new-badge,.bench-session-tool,.bench-session-message,.bench-task,.bench-log) { border-color: var(--night-border); background: var(--night-raised); }
+html[data-theme="dark"] :is(.bench-session-card-foot,.bench-session-title small,.bench-live-copy small,.bench-panel-empty,.bench-session-empty) { color: var(--night-muted); }
+html[data-theme="dark"] .bench-session-detail-header>button { background: var(--night-raised); }
+html[data-theme="dark"] .bench-tabbar button.selected { border-color: var(--night-accent); color: var(--night-accent); }
+
+/* Secondary panes and controls across Traffic, Recon, Repeater, Assets, CyberChef and SSH. */
+html[data-theme="dark"] .app-shell :is([class*="-card"],[class*="-panel"],[class*="-pane"],[class*="-table"],[class*="-list"],[class*="-detail"],[class*="-viewer"],[class*="-editor"],[class*="-results"]) { border-color: var(--night-border); }
+html[data-theme="dark"] .app-shell :is([class*="-card"],[class*="-panel"],[class*="-pane"],[class*="-viewer"],[class*="-editor"]) { background-color: var(--night-surface); }
+html[data-theme="dark"] .app-shell :is([class*="-row"],[class*="-item"],[class*="-entry"]) { border-color: var(--night-border); }
+html[data-theme="dark"] .app-shell :is([class*="-row"],[class*="-item"],[class*="-entry"]):hover { background-color: var(--night-raised); }
+html[data-theme="dark"] .app-shell :is([class*="-tab"],[class*="-filter"],[class*="-chip"],[class*="-badge"]) { border-color: var(--night-border); }
+html[data-theme="dark"] .app-shell :is([class*="-tab"],[class*="-filter"],[class*="-chip"],[class*="-badge"]).selected { background-color: var(--night-accent-bg); }
+html[data-theme="dark"] .app-shell :is(pre,code) { border-color: var(--night-border); }
+html[data-theme="dark"] .app-shell pre { background-color: #0b0d0f; color: var(--night-text); }
+html[data-theme="dark"] .app-shell :is(.ssh-terminal,.ssh-terminal-output) { background: #0b0d0f; color: var(--night-text); }
+html[data-theme="dark"] .app-shell :is(.nuclei-notice,.settings-health.warning) { border-color: #6b5335; background: #3b3020; color: #efca89; }
+html[data-theme="dark"] .app-shell :is(.settings-server.has-error,.bench-log.error) { border-color: #71413b; background: #3a2423; }
+
+/* Dense tables and optional Agent side panes need explicit night surfaces. */
+html[data-theme="dark"] :is(.flow-table,.flow-row,.traffic-detail,.traffic-headers,.traffic-agent,.traffic-agent>header,.traffic-context-card,.assistant-thread article,.proxy-address,.asset-table-head,.asset-table-body>button,.asset-results>footer,.asset-detail,.asset-detail dl,.asset-agent,.asset-agent>header,.asset-agent-context,.asset-agent-thread article,.recon-content,.recon-list>header,.recon-list>div>button,.recon-detail,.recon-detail dl,.passive-recon-agent,.passive-recon-agent>header,.recon-agent-context,.request-lab-history,.history-runs button,.request-lab-agent,.request-lab-agent>header,.request-lab-context,.chef-panel>footer,.chef-input textarea,.chef-recipe,.recipe-card,.chef-agent,.chef-agent>header,.chef-context-card,.chef-assistant-thread article,.recipe-add,.recipe-add select) { border-color: var(--night-border); background: var(--night-surface); }
+html[data-theme="dark"] :is(.flow-row:hover,.flow-row.selected,.asset-table-body>button:hover,.recon-list>div>button:hover,.history-runs button.selected,.request-lab-tab.selected) { background: var(--night-raised); }
+html[data-theme="dark"] :is(.traffic-agent,.chef-agent,.asset-agent,.passive-recon-agent,.request-lab-agent) { color: var(--night-text); }
+html[data-theme="dark"] :is(.traffic-agent>header,.chef-agent>header,.asset-agent>header,.passive-recon-agent>header,.request-lab-agent>header) { border-color: var(--night-border); background: var(--night-sidebar); }
+html[data-theme="dark"] :is(.traffic-headers,.asset-detail dl,.recon-detail dl,.request-lab-history,.chef-panel>footer) { border-color: var(--night-border); background: var(--night-sidebar); }
+html[data-theme="dark"] :is(.flow-row.selected,.asset-table-body>button.selected,.recon-list>div>button.selected) { border-color: var(--night-accent); background: var(--night-accent-bg); }
+html[data-theme="dark"] :is(.method-badge,.status-code,.nuclei-severity) { border-color: var(--night-border); background: var(--night-raised); }
+html[data-theme="dark"] .chef-output pre.empty { background: var(--night-input); }
+
+/* Keep the controls and summary tiles from the older workspaces on the same palette. */
+html[data-theme="dark"] :is(.traffic-listener,.recon-controls,.asset-metrics,.asset-map-content,.recon-content) { border-color: var(--night-border); background: var(--night-sidebar); }
+html[data-theme="dark"] :is(.recon-distributions>section,.recon-coverage,.asset-metrics article,.asset-map-mark,.fofa-endpoint,.asset-config-dialog,.parameter-endpoint,.technology) { border-color: var(--night-border); background: var(--night-surface); }
+html[data-theme="dark"] .asset-map-mark { box-shadow: 0 0 0 10px var(--night-accent-bg); color: var(--night-accent); }
+html[data-theme="dark"] :is(.chef-secondary,.asset-map-empty button,.recon-empty button,.listener-stop,.listener-help,.recon-controls>select,.recon-controls nav span,.recon-list button em,.asset-results>header>span,.asset-config-dialog>footer button,.asset-config-dialog>label input) { border-color: var(--night-border); background: var(--night-raised); color: var(--night-text); }
+html[data-theme="dark"] .asset-map-empty .asset-configure,
+html[data-theme="dark"] .asset-config-dialog>footer .fofa-save,
+html[data-theme="dark"] .recon-empty button:first-child { background: var(--night-accent); color: #132633; }
+html[data-theme="dark"] :is(.traffic-listener input,.recon-controls input,.asset-searchbar input,.asset-options select,.chef-input textarea) { color: var(--night-text); }
+html[data-theme="dark"] .recon-controls nav button.selected { color: var(--night-accent); }
+html[data-theme="dark"] .recon-distributions p>i { background: var(--night-border); }
+html[data-theme="dark"] :is(.recon-list button b,.recon-detail dd,.asset-table-body b,.asset-metrics b,.asset-detail dd,.chef-context-card b) { color: var(--night-text); }
+html[data-theme="dark"] .chef-context-card>div>i { background: var(--night-accent-bg); color: var(--night-accent); }
+html[data-theme="dark"] .asset-config-dialog>header { border-color: var(--night-border); }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="dark"] .rail-theme-toggle { transition-duration: 0ms; }
+}

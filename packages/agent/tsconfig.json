@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts"],
+  "references": [
+    { "path": "../shared" },
+    { "path": "../database" },
+    { "path": "../traffic" },
+    { "path": "../browser" },
+    { "path": "../state" },
+    { "path": "../security" }
+  ]
+}

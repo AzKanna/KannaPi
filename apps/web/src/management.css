@@ -1,0 +1,15 @@
+.sidebar-item-row { display: flex; align-items: center; border-radius: 10px; min-width: 0; }
+.sidebar-item-row:hover, .sidebar-item-row.selected, .sidebar-item-row:focus-within { background: #e2e6df; }
+.project-list .sidebar-item-select, .agent-list .sidebar-item-select { flex: 1; min-width: 0; width: auto; }
+.sidebar-item-actions { display: flex; align-items: center; gap: 1px; padding-right: 4px; opacity: 0; }
+.sidebar-item-row:hover .sidebar-item-actions, .sidebar-item-row.selected .sidebar-item-actions, .sidebar-item-row:focus-within .sidebar-item-actions { opacity: 1; }
+.sidebar-item-actions button { border: 0; background: transparent; border-radius: 6px; width: 23px; height: 23px; padding: 0; display: grid; place-items: center; color: #69736d; font-size: 14px; }
+.sidebar-item-actions button:last-child { color: #9a6e6e; }
+.sidebar-item-actions button:hover:not(:disabled) { background: #d5ddd0; }
+.sidebar-item-actions button:last-child:hover:not(:disabled) { background: #f4dede; color: #a43f3f; }
+.sidebar-item-actions button:disabled { opacity: .35; cursor: default; }
+.session-row { grid-template-columns: minmax(0, 1fr) 28px 28px; }
+.session-edit { width: 24px; height: 24px; border: 0; border-radius: 7px; background: transparent; color: #69736d; font-size: 13px; opacity: 0; }
+.session-row:hover .session-edit, .session-row.selected .session-edit, .session-row:focus-within .session-edit { opacity: 1; }
+.session-edit:hover:not(:disabled) { background: #d5ddd0; }
+.session-edit:disabled { cursor: default; opacity: .38; }

@@ -1,0 +1,23 @@
+.subagent-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 8px; margin-top: 10px; }
+html .app-shell .subagent-card { margin: 0; min-width: 0; border: 1px solid var(--ak-line-color); background: var(--ak-surface-panel); border-radius: 3px; overflow: hidden; }
+html .app-shell .subagent-card > summary { display: flex; width: auto; align-items: center; gap: 8px; padding: 10px; cursor: pointer; list-style: none; }
+.subagent-card > summary::-webkit-details-marker { display: none; }
+.subagent-card-mark { display: grid; place-items: center; width: 28px; height: 28px; flex: none; color: var(--ak-color-primary); background: color-mix(in srgb, var(--ak-color-primary) 12%, transparent); }
+.subagent-card-title { flex: 1; min-width: 0; }
+html .app-shell .subagent-card-title b { text-transform: capitalize; color: var(--ak-text-primary); }
+html .app-shell .subagent-card-title small { overflow-wrap: anywhere; color: var(--ak-text-secondary); font-size: 10px; }
+.subagent-card-status { color: var(--ak-text-secondary); text-transform: uppercase; font-size: 9px; }
+.subagent-card.running { border-color: var(--ak-color-primary); }
+.subagent-card.running .subagent-card-status { color: var(--ak-color-primary); }
+.subagent-card.completed .subagent-card-status { color: var(--ak-signal-success); }
+.subagent-card.failed .subagent-card-status, .subagent-error { color: var(--ak-signal-danger); }
+.subagent-card-body { border-top: 1px solid var(--ak-line-color); padding: 10px; overflow-wrap: anywhere; font-size: 12px; }
+.subagent-task { margin: 0 0 8px; white-space: pre-wrap; }
+.subagent-answer { margin-top: 10px; max-height: 260px; overflow: auto; }
+.subagent-answer .markdown-body { font-size: 12px; }
+.subagent-empty { color: var(--ak-text-secondary); }
+html .app-shell .subagent-transcript { margin-top: 10px; }
+.subagent-transcript > div { margin-top: 8px; }
+html .app-shell .subagent-transcript pre { max-height: 150px; }
+.subagent-card > summary:hover { background: color-mix(in srgb, var(--ak-color-primary) 6%, transparent); }
+.subagent-card > summary:focus-visible { outline: 2px solid var(--ak-color-primary); outline-offset: -2px; }

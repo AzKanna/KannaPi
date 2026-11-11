@@ -1,0 +1,14 @@
+{
+  "name": "kanna-spike",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "T0 spike: verify Pi coding-agent SDK embedding (createAgentSession + customTools + noTools + OpenAI-compatible endpoint)",
+  "scripts": {
+    "spike": "node spike.mjs"
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "^0.85.1",
+    "typebox": "^1.3.28"
+  }
+}
